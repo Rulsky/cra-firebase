@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "semi": [2, "never"],
+    "no-use-before-define": ["error", { "functions": false, "classes": true }],
+    "no-unexpected-multiline": 2
+  }
+}

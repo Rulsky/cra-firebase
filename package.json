@@ -1,0 +1,25 @@
+{
+  "name": "cra-ssr-firebase",
+  "version": "0.0.1",
+  "description": "helper lib to provide SSR capabilities of firebase with create-react-app",
+  "bin": {
+    "cra-ssr-firebase": "./index.js"
+  },
+  "repository": "git@github.com:Rulsky/cra-ssr-firebase.git",
+  "author": "Ruslan Zaytsev <ruslan.zaytsev@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^21.2.1"
+  },
+  "dependencies": {
+    "cross-spawn": "^5.1.0"
+  }
+}
