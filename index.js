@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('./scripts/launch')()
+const spawn = require('cross-spawn')
+require('./scripts/launch')(spawn)
