@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable no-console */
-const launch = (spawn) => {
+const launch = (spawn, resolver) => {
   const args = process.argv.slice(2)
   const scriptIndex = args.findIndex(x => x === 'build' || x === 'start')
   const script = scriptIndex === -1 ? args[0] : args[scriptIndex]
@@ -14,7 +14,7 @@ const launch = (spawn) => {
     case 'build':
     case 'start': {
       try {
-        const resolvedPath = require.resolve(`./${script}`)
+        const resolvedPath = resolver(`./scripts/${script}.js`)
         const restArgs = nodeArgs.concat(resolvedPath).concat(args.slice(scriptIndex + 1))
         const result = spawn.sync('node', restArgs, { stdio: 'inherit' })
         if (result.signal) {

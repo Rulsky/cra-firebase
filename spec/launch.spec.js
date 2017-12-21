@@ -1,4 +1,3 @@
-import path from 'path'
 import launch from '../scripts/launch'
 
 describe('known cli arguments', () => {
@@ -10,35 +9,36 @@ describe('known cli arguments', () => {
   }
 
   beforeEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
     require.resolve = jest.fn(arg => `${arg}`)
     process.exit = jest.fn()
     process.argv = ['node/instance', 'file']
   })
 
   it('should accept "build"', () => {
-    process.argv.push('build')
+    const moduleName = 'build'
+    process.argv.push(moduleName)
 
-    // console.log('spawn.sync', jest.isMockFunction(spawn.sync))
-    // console.log('process.exit', jest.isMockFunction(process.exit))
-    // console.log('require.resolve', jest.isMockFunction(require.resolve))
-    // console.log('require.resolve call', require.resolve('bla'))
-
-    launch(spawn)
+    launch(spawn, require.resolve)
 
     expect(process.exit).toBeCalledWith(0)
     expect(process.exit).toHaveBeenCalledTimes(1)
     expect(spawn.sync).toHaveBeenCalledTimes(1)
-    // expect(require.resolve).toHaveBeenCalledTimes(1)
-    // expect(require.resolve).toBeCalledWith('')
+    expect(require.resolve).toHaveBeenCalledTimes(1)
+    expect(require.resolve).toBeCalledWith(`./scripts/${moduleName}.js`)
   })
 
   it('should accept "start"', () => {
-    process.argv.push('start')
+    const moduleName = 'start'
+    process.argv.push(moduleName)
 
-    launch(spawn)
+    launch(spawn, require.resolve)
 
     expect(process.exit).toHaveBeenCalledWith(0)
     expect(process.exit).toHaveBeenCalledTimes(1)
+    expect(require.resolve).toHaveBeenCalledTimes(1)
+    expect(require.resolve).toBeCalledWith(`./scripts/${moduleName}.js`)
   })
 
   it('should accept supported arguments and pass through any additional arguments', () => {
@@ -46,13 +46,12 @@ describe('known cli arguments', () => {
     const additionalArgs = ['--add-arg1', '--add-arg2']
     process.argv.push(moduleName, ...additionalArgs)
 
-    launch(spawn)
+    launch(spawn, require.resolve)
 
-    expect(spawn.sync).toBeCalledWith(
-      'node',
-      [path.resolve(__dirname, '..', 'scripts', `${moduleName}.js`), ...additionalArgs],
-      { stdio: 'inherit' },
-    )
+    const expectedPath = [`./scripts/${moduleName}.js`, ...additionalArgs]
+
+    expect(spawn.sync).toHaveBeenCalledTimes(1)
+    expect(spawn.sync).toBeCalledWith('node', expectedPath, { stdio: 'inherit' })
   })
 })
 
