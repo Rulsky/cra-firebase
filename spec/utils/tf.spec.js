@@ -1,9 +1,9 @@
-const tf = require('../scripts/tf')
+const tf = require('../../scripts/utils/tf')
 
 describe('be a promisified wrapper around babel-core', () => {
   it('succesfully fullfills', () => {
     expect.assertions(1)
-    const exampleFile = require.resolve('./fixtures/example')
+    const exampleFile = require.resolve('../fixtures/example')
     return tf(exampleFile).then((code) => {
       expect(code).toBeTruthy()
     })

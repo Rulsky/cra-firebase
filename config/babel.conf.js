@@ -11,7 +11,7 @@ module.exports = {
         },
       },
     ],
-    'react',
+    'react-app',
     'flow',
   ],
 }

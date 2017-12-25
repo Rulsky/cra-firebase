@@ -1,5 +1,5 @@
 const { transformFile } = require('babel-core')
-const babelOpts = require('../config/babel.conf')
+const babelOpts = require('../../config/babel.conf.js')
 
 const tf = file =>
   new Promise((resolve, reject) =>
