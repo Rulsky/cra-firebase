@@ -1,23 +1,19 @@
 const path = require('path')
 const { outputFile } = require('fs-extra')
-const chalk = require('chalk')
+const spawn = require('cross-spawn')
 const { tf, readFilenames, flattenArray } = require('./utils')
+const copyMarkup = require('./copyMarkup')
 const {
   root, input, srcDir, firebaseFunctionDir, outIndex,
 } = require('../config/filelist')
+const { okOut, errOut, infoOut } = require('./utils/logging')
 
-const { log } = console
 const env = process.env.BABEL_ENV
 process.env.BABEL_ENV = 'production'
 
-const okColor = [196, 226, 111]
-const errorColor = (195, 27, 27)
-
-log(chalk
-  .rgb(...okColor)
-  .inverse(`build.js was called with ${
-    process.argv.slice(2) > 0 ? process.argv.slice(2) : 'no arguments'
-  }`))
+infoOut(`build.js was called with ${
+  process.argv.slice(2) > 0 ? process.argv.slice(2) : 'no arguments'
+}\n`)
 
 const makeOutputFileName = (filename, currDir, destDir) => {
   const relName = filename.split(`${currDir}${path.sep}`)[1]
@@ -50,22 +46,48 @@ const processFiles = () =>
               outputFilename: makeOutputFileName(inputFilename, srcDir, firebaseFunctionDir),
             }
           })
-          .then(({ transpiled, outputFilename }) => {
-            log('file', outputFilename)
-            return outputFile(outputFilename, transpiled)
-          })
+          .then(({ transpiled, outputFilename }) => outputFile(outputFilename, transpiled))
           .catch(error =>
-            log(chalk.rgb(...errorColor).bold(`
-              ERROR while working with:\n
+            errOut(`ERROR while working with:\n
               file: ${inputFilename}
               what's wrong:\n${error}
-              `)))))
+            `))))
 
 const results = flattenArray(processFiles())
 
 Promise.all(results)
   .then(() => {
+    const result = spawn.sync('node', ['node_modules/react-scripts/scripts/build.js'], {
+      stdio: 'inherit',
+    })
+    if (result.signal) {
+      const err = new Error('error while building client code')
+      err.type = 'CRA_BUILD'
+      return err
+    }
+    return result
+  })
+  .then(() => {
+    infoOut('Start to copy html markup to server code')
+    return copyMarkup()
+  })
+  .then(() => {
+    infoOut('html markup copied successfully')
     process.env.BABEL_ENV = env
   })
-  .then(() => log(chalk.rgb(...okColor).inverse('finish successfully')))
-  .catch(error => log(chalk.rgb(...errorColor).bold(`${error}`)))
+  .then(() => okOut('\nfinish successfully'))
+  .catch((error) => {
+    switch (error.type) {
+      case 'MARKUP':
+        errOut(
+          'Looks like CRA build script hasn\'t run before copying markup because \nthis script couldn\'t find "index.html" in "build" directory.\nPlease, make sure that it present.\nThe rest of the infromation about the error:\n',
+          error,
+        )
+        break
+      case 'CRA_BUILD':
+        errOut('create-react-app build script failed', error)
+        break
+      default:
+        errOut('unknowk error\n', error)
+    }
+  })

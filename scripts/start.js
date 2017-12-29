@@ -1,1 +1,1 @@
-console.log('start.js was called', process.argv.slice(2))
+console.log('start.js was called but it not implemented yet')
