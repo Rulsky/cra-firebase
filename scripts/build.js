@@ -4,7 +4,7 @@ const spawn = require('cross-spawn')
 const { tf, readFilenames, flattenArray } = require('./utils')
 const copyMarkup = require('./copyMarkup')
 const {
-  root, input, srcDir, firebaseFunctionDir, outIndex,
+  root, input, srcDir, firebaseFunctionsDir, outIndex,
 } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
 
@@ -43,7 +43,7 @@ const processFiles = () =>
 
             return {
               transpiled,
-              outputFilename: makeOutputFileName(inputFilename, srcDir, firebaseFunctionDir),
+              outputFilename: makeOutputFileName(inputFilename, srcDir, firebaseFunctionsDir),
             }
           })
           .then(({ transpiled, outputFilename }) => outputFile(outputFilename, transpiled))

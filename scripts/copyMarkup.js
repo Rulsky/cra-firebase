@@ -1,10 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { readFile, writeFile } = require('fs-extra')
-const path = require('path')
-const { root } = require('../config/filelist')
+const { join } = require('path')
+const { root, firebaseFunctionsDir } = require('../config/filelist')
 
-const inputFile = path.resolve(root, 'build/index.html')
-const outputFile = path.resolve(root, 'functions/markup.js')
+const inputFile = join(root, 'build/index.html')
+const outputFile = join(root, firebaseFunctionsDir, 'markup.js')
 const searchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
 
 const expressFunction = markup => `module.exports = content => \`${markup}\`\n`

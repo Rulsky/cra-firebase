@@ -1,24 +1,26 @@
-const path = require('path')
+const { join } = require('path')
+const { readJsonSync } = require('fs-extra')
 
 const root = process.cwd()
 
-const srcDir = path.join(root, 'src')
+const fbsConf = readJsonSync(join(root, 'firebase.json'))
 
-// TODO: replase with reading from firebase.config.js
-const firebaseFunctionDir = 'functions'
+const firebaseFunctionsDir = fbsConf.functions ? fbsConf.functions.source : 'functions'
+
+const srcDir = join(root, 'src')
 
 // TODO: optional consideration of reading file structure from elsewhere
 const input = {
-  index: path.join(srcDir, 'server.index.js'),
-  shared: path.join(srcDir, 'shared'),
-  server: path.join(srcDir, 'server'),
+  index: join(srcDir, 'server.index.js'),
+  shared: join(srcDir, 'shared'),
+  server: join(srcDir, 'server'),
 }
 
-const outIndex = path.join(root, firebaseFunctionDir, 'index.js')
+const outIndex = join(root, firebaseFunctionsDir, 'index.js')
 
 module.exports = {
   srcDir,
-  firebaseFunctionDir,
+  firebaseFunctionsDir,
   input,
   root,
   outIndex,
