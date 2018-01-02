@@ -1,12 +1,16 @@
 const path = require('path')
 const { outputFile } = require('fs-extra')
 const spawn = require('cross-spawn')
+
 const { tf, readFilenames, flattenArray } = require('./utils')
-const copyMarkup = require('./copyMarkup')
+const { okOut, errOut, infoOut } = require('./utils/logging')
+
 const {
   root, input, srcDir, firebaseFunctionsDir, outIndex,
 } = require('../config/filelist')
-const { okOut, errOut, infoOut } = require('./utils/logging')
+
+const copyMarkup = require('./copyMarkup')
+
 
 const env = process.env.BABEL_ENV
 process.env.BABEL_ENV = 'production'
@@ -47,11 +51,13 @@ const processFiles = () =>
             }
           })
           .then(({ transpiled, outputFilename }) => outputFile(outputFilename, transpiled))
-          .catch(error =>
-            errOut(`ERROR while working with:\n
-              file: ${inputFilename}
-              what's wrong:\n${error}
-            `))))
+          .catch((error) => {
+            /* eslint-disable no-param-reassign */
+            error.type = 'PROCESS_FILE'
+            error.inputFilename = inputFilename
+            /* eslint-enable no-param-reassign */
+            return Promise.reject(error)
+          })))
 
 const results = flattenArray(processFiles())
 
@@ -80,12 +86,17 @@ Promise.all(results)
     switch (error.type) {
       case 'MARKUP':
         errOut(
-          'Looks like CRA build script hasn\'t run before copying markup because \nthis script couldn\'t find "index.html" in "build" directory.\nPlease, make sure that it present.\nThe rest of the infromation about the error:\n',
+          'Looks like CRA build script hasn\'t run before copying markup\nbecause this script couldn\'t find "index.html" in "build" directory.\nPlease, make sure that it present.\nThe rest of the infromation about the error:\n\n',
           error,
+          '\n',
         )
         break
       case 'CRA_BUILD':
         errOut('create-react-app build script failed', error)
+        break
+      case 'PROCESS_FILE':
+        errOut(`ERROR while transpiling with babel this file:\nfile: ${error.inputFilename}\n what's wrong:`)
+        console.error(error) // eslint-disable-line no-console
         break
       default:
         errOut('unknowk error\n', error)
