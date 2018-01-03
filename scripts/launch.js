@@ -15,8 +15,8 @@ const launch = (spawn, resolver) => {
     case 'start': {
       try {
         const resolvedPath = resolver(`./scripts/${script}.js`)
-        const restArgs = nodeArgs.concat(resolvedPath).concat(args.slice(scriptIndex + 1))
-        const result = spawn.sync('node', restArgs, { stdio: 'inherit' })
+        const allArgs = [...nodeArgs, resolvedPath, script, ...args.slice(scriptIndex + 1)]
+        const result = spawn.sync('node', allArgs, { stdio: 'inherit' })
         if (result.signal) {
           if (result.signal === 'SIGKILL') {
             console.log(`The script ${script} failed because the process exited too early. ` +

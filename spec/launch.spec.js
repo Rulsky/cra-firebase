@@ -48,7 +48,7 @@ describe('known cli arguments', () => {
 
     launch(spawn, require.resolve)
 
-    const expectedPath = [`./scripts/${moduleName}.js`, ...additionalArgs]
+    const expectedPath = [`./scripts/${moduleName}.js`, moduleName, ...additionalArgs]
 
     expect(spawn.sync).toHaveBeenCalledTimes(1)
     expect(spawn.sync).toBeCalledWith('node', expectedPath, { stdio: 'inherit' })
