@@ -5,7 +5,12 @@ const { okOut, errOut, infoOut } = require('./utils/logging')
 const callReactScriptsBuild = require('./callReactScriptsBuild')
 const copyMarkup = require('./copyMarkup')
 
-const build = () => {
+const build = (
+  remove = rm,
+  procFiles = processFiles,
+  callRSBuild = callReactScriptsBuild,
+  cpMarkup = copyMarkup,
+) => {
   const env = process.env.BABEL_ENV
   process.env.BABEL_ENV = 'production'
 
@@ -13,12 +18,12 @@ const build = () => {
     ? process.argv.slice(2)
     : 'no arguments'}\n`)
 
-  return rm()
-    .then(processFiles())
-    .then(callReactScriptsBuild)
+  return remove()
+    .then(procFiles())
+    .then(callRSBuild)
     .then(() => {
       infoOut('Start to copy html markup to server code')
-      return copyMarkup()
+      return cpMarkup()
     })
     .then(() => {
       infoOut('html markup copied successfully')
