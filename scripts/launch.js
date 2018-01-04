@@ -15,7 +15,13 @@ const launch = (spawn, resolver) => {
     case 'start': {
       try {
         const resolvedPath = resolver(`./scripts/${script}.js`)
-        const allArgs = [...nodeArgs, resolvedPath, script, ...args.slice(scriptIndex + 1)]
+        const allArgs = [
+          ...nodeArgs,
+          '-e',
+          `${'require("'}${resolvedPath}")()`,
+          script,
+          ...args.slice(scriptIndex + 1),
+        ]
         const result = spawn.sync('node', allArgs, { stdio: 'inherit' })
         if (result.signal) {
           if (result.signal === 'SIGKILL') {

@@ -48,6 +48,3 @@ const build = () => {
 }
 
 module.exports = build
-require('make-runnable/custom')({
-  printOutputFrame: false,
-})
