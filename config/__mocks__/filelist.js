@@ -9,6 +9,7 @@ const input = {
   index: join(srcDir, 'server.index.js'),
   shared: join(srcDir, 'shared'),
   server: join(srcDir, 'server'),
+  // other: join(srcDir, 'other'),
 }
 
 const outIndex = join(root, firebaseFunctionsDir, 'index.js')
