@@ -25,7 +25,7 @@ describe('build script', () => {
     return build(rmMock, processFilesMock, callReactScriptsBuildMock, copyMarkupMock).then(() => {
       expect(console.error).toHaveBeenCalledTimes(0)
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.info).toHaveBeenCalledTimes(3)
+      expect(console.info).toHaveBeenCalledTimes(5)
       expect(rmMock).toHaveBeenCalledTimes(1)
       expect(processFilesMock).toHaveBeenCalledTimes(1)
       expect(callReactScriptsBuildMock).toHaveBeenCalledTimes(1)

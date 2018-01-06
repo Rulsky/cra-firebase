@@ -1,16 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { readFile, writeFile } = require('fs-extra')
 const { join } = require('path')
-const { root, firebaseFunctionsDir } = require('../config/filelist')
+const { root, firebaseFunctionsDir, craBuildIndex } = require('../config/filelist')
 
-const inputFile = join(root, 'build/index.html')
 const outputFile = join(root, firebaseFunctionsDir, 'markup.js')
 const searchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
 
 const expressFunction = markup => `module.exports = content => \`${markup}\`\n`
 
 const copyMarkup = () =>
-  readFile(inputFile, 'utf-8')
+  readFile(craBuildIndex, 'utf-8')
     .then((content) => {
       const searchResult = content.match(searchCriteria)
 
@@ -26,6 +25,7 @@ const copyMarkup = () =>
       writeFile(outputFile, markup, 'utf-8')
     })
     .catch((error) => {
+      console.log(error)
       error.type = 'MARKUP' // eslint-disable-line no-param-reassign
       return Promise.reject(error)
     })

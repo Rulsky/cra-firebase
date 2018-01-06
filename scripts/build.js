@@ -1,5 +1,7 @@
-const { processFiles, rm } = require('./utils')
+const { removeSync } = require('fs-extra')
 
+const { processFiles, rm } = require('./utils')
+const { craBuildIndex } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
 
 const callReactScriptsBuild = require('./callReactScriptsBuild')
@@ -11,11 +13,12 @@ const build = (
   callRSBuild = callReactScriptsBuild,
   cpMarkup = copyMarkup,
 ) => {
+  infoOut('setting BABEL_ENV to production')
   const env = process.env.BABEL_ENV
   process.env.BABEL_ENV = 'production'
 
-  infoOut(`build.js was called with ${process.argv.slice(2) > 0
-    ? process.argv.slice(2)
+  infoOut(`build.js was called with ${process.argv.slice(2).length > 0
+    ? `next arguments: ${process.argv.slice(2)}`
     : 'no arguments'}\n`)
 
   return remove()
@@ -26,7 +29,11 @@ const build = (
       return cpMarkup()
     })
     .then(() => {
-      infoOut('html markup copied successfully')
+      infoOut('html markup copied successfully\nDeleting "build/index.html"')
+      return removeSync(craBuildIndex)
+    })
+    .then(() => {
+      infoOut('setting BABEL_ENV to original value')
       process.env.BABEL_ENV = env
     })
     .then(() => okOut('\nfinish successfully'))
