@@ -1,10 +1,10 @@
 const { removeSync } = require('fs-extra')
+const spawn = require('cross-spawn')
 
-const { processFiles, rm } = require('./utils')
+const { processFiles, rm, callReactScriptsBuild } = require('./utils')
 const { craBuildIndex } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
 
-const callReactScriptsBuild = require('./callReactScriptsBuild')
 const copyMarkup = require('./copyMarkup')
 
 const build = (
@@ -23,7 +23,7 @@ const build = (
 
   return remove()
     .then(procFiles())
-    .then(callRSBuild)
+    .then(() => callRSBuild(spawn))
     .then(() => {
       infoOut('Start to copy html markup to server code')
       return cpMarkup()

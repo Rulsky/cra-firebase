@@ -10,7 +10,7 @@ describe('build script', () => {
     jest.clearAllMocks()
     jest.mock('../config/filelist')
     jest.mock('../scripts/utils/processFiles', () => () => [])
-    jest.mock('../scripts/callReactScriptsBuild', () => jest.fn())
+    jest.mock('../scripts/utils/callReactScriptsBuild', () => jest.fn())
     jest.mock('../scripts/copyMarkup', () => () => true)
     console.error = jest.fn()
     console.log = jest.fn()

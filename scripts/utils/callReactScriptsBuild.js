@@ -1,6 +1,4 @@
-const spawn = require('cross-spawn')
-
-const callReactScriptsBuild = () => {
+const callReactScriptsBuild = (spawn) => {
   const result = spawn.sync('node', ['node_modules/react-scripts/scripts/build.js'], {
     stdio: 'inherit',
   })
