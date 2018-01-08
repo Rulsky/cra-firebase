@@ -39,13 +39,6 @@ const build = (
     .then(() => okOut('\nfinish successfully'))
     .catch((error) => {
       switch (error.type) {
-        case 'MARKUP':
-          errOut(
-            'Looks like CRA build script hasn\'t run before copying markup\nbecause this script couldn\'t find "index.html" in "build" directory.\nPlease, make sure that it present.\nThe rest of the infromation about the error:\n\n',
-            error,
-            '\n',
-          )
-          break
         case 'CRA_BUILD':
           errOut('create-react-app build script failed', error)
           break
@@ -54,7 +47,7 @@ const build = (
           console.error(error) // eslint-disable-line no-console
           break
         default:
-          errOut('unknowk error\n', error)
+          errOut('', error)
       }
     })
 }
