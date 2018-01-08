@@ -1,7 +1,12 @@
 const path = require('path')
 const { outputFile } = require('fs-extra')
 
-const { srcDir, firebaseFunctionsDir, outIndex } = require('../../config/filelist')
+const {
+  srcDir,
+  firebaseFunctionsDir,
+  outIndex,
+  serverIndexInput,
+} = require('../../config/filelist')
 
 const tf = require('./tf')
 const outputName = require('./outputName')
@@ -9,7 +14,7 @@ const outputName = require('./outputName')
 const transform = inputFilename =>
   tf(inputFilename)
     .then((transpiled) => {
-      if (path.basename(inputFilename) === 'server.index.js') {
+      if (path.basename(inputFilename) === serverIndexInput) {
         return {
           transpiled,
           outputFilename: outIndex,
