@@ -1,11 +1,11 @@
 const { removeSync } = require('fs-extra')
 const spawn = require('cross-spawn')
 
-const { processFiles, rm, callReactScriptsBuild } = require('./utils')
+const {
+  processFiles, rm, callReactScriptsBuild, copyMarkup,
+} = require('./utils')
 const { craBuildIndex } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
-
-const copyMarkup = require('./copyMarkup')
 
 const build = (
   remove = rm,

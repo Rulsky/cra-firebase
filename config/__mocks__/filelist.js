@@ -14,7 +14,7 @@ const input = {
 
 const outIndex = join(root, firebaseFunctionsDir, 'index.js')
 
-const craBuildIndex = join(root, 'build/index.html')
+const craBuildIndex = 'build/index.html'
 
 module.exports = {
   srcDir,
