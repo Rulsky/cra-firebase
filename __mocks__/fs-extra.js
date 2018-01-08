@@ -1,7 +1,6 @@
 const path = require('path')
 
 const fsExtra = jest.genMockFromModule('fs-extra')
-// const fsExtra = {}
 
 let mockFiles = Object.create(null)
 /* eslint-disable no-underscore-dangle */
@@ -33,11 +32,14 @@ const writeFile = (filename, content) => content
 
 const outputFile = (filename, content) => ({ filename, content })
 
+const readJsonSync = file => filesManifest[file]
+
 fsExtra.__setMockFiles = __setMockFiles
 fsExtra.__setFilesManifest = __setFilesManifest
 fsExtra.readFile = readFile
 fsExtra.writeFile = writeFile
 fsExtra.removeSync = () => true
 fsExtra.outputFile = outputFile
+fsExtra.readJsonSync = readJsonSync
 /* eslint-enable no-underscore-dangle */
 module.exports = fsExtra
