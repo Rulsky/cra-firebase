@@ -32,10 +32,10 @@ describe('copyMarkup', () => {
     expect.assertions(4)
 
     return copyMarkup().then((actual) => {
-      expect(actual).toMatch(/module.exports = content => /)
-      expect(actual).toMatch(/<html.*>/)
-      expect(actual).toMatch(/<\/html>/)
-      expect(actual).toMatch(/\${content}/)
+      expect(actual.content).toMatch(/module.exports = content => /)
+      expect(actual.content).toMatch(/<html.*>/)
+      expect(actual.content).toMatch(/<\/html>/)
+      expect(actual.content).toMatch(/\${content}/)
     })
   })
 

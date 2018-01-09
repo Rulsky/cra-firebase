@@ -12,6 +12,7 @@ describe('build script', () => {
     jest.mock('../scripts/utils/processFiles', () => () => [])
     jest.mock('../scripts/utils/callReactScriptsBuild', () => jest.fn())
     jest.mock('../scripts/utils/copyMarkup', () => () => true)
+    jest.mock('../scripts/utils/copyDeps', () => () => Promise.resolve(true))
     console.error = jest.fn()
     console.log = jest.fn()
     console.info = jest.fn()
@@ -25,7 +26,7 @@ describe('build script', () => {
     return build(rmMock, processFilesMock, callReactScriptsBuildMock, copyMarkupMock).then(() => {
       expect(console.error).toHaveBeenCalledTimes(0)
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.info).toHaveBeenCalledTimes(5)
+      expect(console.info).toHaveBeenCalledTimes(7)
       expect(rmMock).toHaveBeenCalledTimes(1)
       expect(processFilesMock).toHaveBeenCalledTimes(1)
       expect(callReactScriptsBuildMock).toHaveBeenCalledTimes(1)

@@ -28,7 +28,7 @@ const __setFilesManifest = (files) => {
 
 const readFile = filename => Promise.resolve(filesManifest[filename])
 
-const writeFile = (filename, content) => content
+const writeFile = (filename, content) => ({ filename, content })
 
 const outputFile = (filename, content) => ({ filename, content })
 

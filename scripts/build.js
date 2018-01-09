@@ -2,9 +2,9 @@ const { removeSync } = require('fs-extra')
 const spawn = require('cross-spawn')
 
 const {
-  processFiles, rm, callReactScriptsBuild, copyMarkup,
+  processFiles, rm, callReactScriptsBuild, copyMarkup, copyDeps,
 } = require('./utils')
-const { craBuildIndex } = require('../config/filelist')
+const { craBuildIndex, firebaseFunctionsDir } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
 
 const build = (
@@ -33,6 +33,11 @@ const build = (
       return removeSync(craBuildIndex)
     })
     .then(() => {
+      infoOut(`Begin copy dependencies from root "package.json" into "${firebaseFunctionsDir}/package.json"`)
+      copyDeps()
+    })
+    .then(() => {
+      infoOut('Dependencies copied')
       infoOut('setting BABEL_ENV to original value')
       process.env.BABEL_ENV = env
     })

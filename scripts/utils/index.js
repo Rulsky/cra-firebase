@@ -5,6 +5,7 @@ const flattenArray = require('./flattenArray')
 const processFiles = require('./processFiles')
 const callReactScriptsBuild = require('./callReactScriptsBuild')
 const copyMarkup = require('./copyMarkup')
+const copyDeps = require('./copyDeps')
 
 module.exports = {
   readFilenames,
@@ -14,4 +15,5 @@ module.exports = {
   rm,
   callReactScriptsBuild,
   copyMarkup,
+  copyDeps,
 }
