@@ -6,6 +6,7 @@ describe('filterFiles', () => {
     jest.resetAllMocks()
     jest.resetModules()
     jest.mock('../../config/filelist')
+    process.argv = []
   })
 
   const given = [
@@ -98,6 +99,29 @@ describe('filterFiles', () => {
     ])
 
     const actual = newGiven.filter(filterFilesWithMocks)
+    expect(actual).toEqual(newExpected)
+  })
+
+  it('reads more options from CLI', () => {
+    process.argv = ['', '', '--exclude=.sh,.tmp', '--include=.txt,.ts']
+
+    const newGiven = given.concat([
+      join(__dirname, 'configs', 'mock.txt.ts'),
+      join(__dirname, 'configs', 'mock.trash'),
+      join(__dirname, 'logic', 'test.ts'),
+      join(__dirname, 'scripts', 'build.sh'),
+      join(__dirname, 'scripts', 'build.sh.trash'),
+      join(__dirname, 'other.txt'),
+      join(__dirname, 'some.tmp'),
+    ])
+
+    const newExpected = expected.concat([
+      join(__dirname, 'configs', 'mock.txt.ts'),
+      join(__dirname, 'logic', 'test.ts'),
+      join(__dirname, 'other.txt'),
+    ])
+
+    const actual = newGiven.filter(filterFiles)
     expect(actual).toEqual(newExpected)
   })
   /* eslint-enable no-underscore-dangle, global-require */
