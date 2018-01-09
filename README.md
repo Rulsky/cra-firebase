@@ -1,4 +1,4 @@
-# cra-ssr-firebase
+# cra-firebase
 
 This is a helper library which helps to implement server-side rendering (SSR) of project started with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app) in [google's firebase (FBS)](https://firebase.google.com/)
 
@@ -53,3 +53,26 @@ But simple declarations (without options) works.
 ```
 
 *Please note that this utility is interested in plugins and presets sections configuration of babel, other parts are ignored. It does **NOT** look into any env option, only default one.*
+
+## Adding more filetypes into filtering
+you can specify in `package.json` or in `.crafirebaserc.json` or via CLI command option more filetypes which you want to add/exclude to a process of babel transformation.
+
+In config files values must be arrays of strings.
+
+An example of `package.json`:
+```JSON
+"crafirebase": {
+  "exclude": ["tmp.ts", "tmp.js"],
+  "include": [".ts", ".filetypeofyourtaste"]
+}
+```
+
+An example of `.crafirebaserc.json`:
+```JSON
+"exclude": ["tmp.ts", "tmp.js"],
+"include": [".ts", ".filetypeofyourtaste"]
+```
+
+The examples of CLI commands:
+  - exclude: `--exclude=.sh,.tmp`
+  - include: `--include=.txt,.ts`
