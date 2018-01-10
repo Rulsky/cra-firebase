@@ -2,7 +2,7 @@ const { join } = require('path')
 
 const root = process.cwd()
 
-const firebaseFunctionsDir = join(root, 'functions')
+const firebaseFunctionsDir = 'functions'
 const srcDir = join(root, 'src')
 const serverIndexInput = 'server.index.js'
 const outIndex = join(root, firebaseFunctionsDir, 'index.js')

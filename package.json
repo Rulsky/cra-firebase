@@ -1,7 +1,8 @@
 {
   "name": "cra-firebase",
   "version": "0.0.1",
-  "description": "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
+  "description":
+    "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
   "bin": {
     "cra-firebase": "./index.js"
   },
@@ -28,5 +29,8 @@
     "chalk": "^2.3.0",
     "cross-spawn": "^5.1.0",
     "fs-extra": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react-scripts": "^1.0.17"
   }
 }
