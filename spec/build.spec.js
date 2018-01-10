@@ -4,6 +4,7 @@ describe('build script', () => {
   const processFilesMock = jest.fn(() => Promise.resolve())
   const callReactScriptsBuildMock = jest.fn()
   const copyMarkupMock = jest.fn(() => Promise.resolve())
+  const copyDepsMock = jest.fn(() => Promise.resolve())
 
   beforeEach(() => {
     jest.resetModules()
@@ -12,7 +13,7 @@ describe('build script', () => {
     jest.mock('../scripts/utils/processFiles', () => () => [])
     jest.mock('../scripts/utils/callReactScriptsBuild', () => jest.fn())
     jest.mock('../scripts/utils/copyMarkup', () => () => true)
-    jest.mock('../scripts/utils/copyDeps', () => () => Promise.resolve(true))
+    jest.mock('../scripts/utils/copyDeps', () => () => Promise.resolve())
     console.error = jest.fn()
     console.log = jest.fn()
     console.info = jest.fn()
@@ -22,8 +23,14 @@ describe('build script', () => {
     // eslint-disable-next-line global-require
     const build = require('../scripts/build')
 
-    expect.assertions(7)
-    return build(rmMock, processFilesMock, callReactScriptsBuildMock, copyMarkupMock).then(() => {
+    expect.assertions(8)
+    return build(
+      rmMock,
+      processFilesMock,
+      callReactScriptsBuildMock,
+      copyMarkupMock,
+      copyDepsMock,
+    ).then(() => {
       expect(console.error).toHaveBeenCalledTimes(0)
       expect(console.log).toHaveBeenCalledTimes(1)
       expect(console.info).toHaveBeenCalledTimes(7)
@@ -31,6 +38,7 @@ describe('build script', () => {
       expect(processFilesMock).toHaveBeenCalledTimes(1)
       expect(callReactScriptsBuildMock).toHaveBeenCalledTimes(1)
       expect(copyMarkupMock).toHaveBeenCalledTimes(1)
+      expect(copyDepsMock).toHaveBeenCalledTimes(1)
     })
   })
 

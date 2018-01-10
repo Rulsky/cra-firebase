@@ -12,6 +12,7 @@ const build = (
   procFiles = processFiles,
   callRSBuild = callReactScriptsBuild,
   cpMarkup = copyMarkup,
+  cpDeps = copyDeps,
 ) => {
   infoOut('setting BABEL_ENV to production')
   const env = process.env.BABEL_ENV
@@ -34,7 +35,7 @@ const build = (
     })
     .then(() => {
       infoOut(`Begin copy dependencies from root "package.json" into "${firebaseFunctionsDir}/package.json"`)
-      copyDeps()
+      cpDeps()
     })
     .then(() => {
       infoOut('Dependencies copied')
