@@ -16,6 +16,18 @@ describe('known cli arguments', () => {
     process.argv = ['node/instance', 'file']
   })
 
+  it('should accept "init"', () => {
+    const moduleName = 'init'
+    process.argv.push(moduleName)
+
+    launch(spawn, require.resolve)
+
+    expect(process.exit).toHaveBeenCalledWith(0)
+    expect(process.exit).toHaveBeenCalledTimes(1)
+    expect(require.resolve).toHaveBeenCalledTimes(1)
+    expect(require.resolve).toBeCalledWith(`./scripts/${moduleName}.js`)
+  })
+
   it('should accept "build"', () => {
     const moduleName = 'build'
     process.argv.push(moduleName)
