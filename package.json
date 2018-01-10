@@ -11,8 +11,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage"
   },
   "devDependencies": {
     "eslint": "^4.13.1",
