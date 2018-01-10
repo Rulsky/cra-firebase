@@ -2,15 +2,34 @@
 
 This is a helper library which helps to implement server-side rendering (SSR) of project started with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app) in [google's firebase (FBS)](https://firebase.google.com/)
 
-# Steps
+# The idea
+The capabilities which provide both create-react-app and firebase speeds up development of a product and removes lots of headaches, but they could do even more together.
+
+Firebase cloud functions allows to implement server-side rendering, but our code need to be prepared for the server beforehand.
+Two major requirements are:
+  - compatible with node v6.11.5
+  - jsx should be transpiled into plain js
+
+Also we need to share some code between server and client. And it is good to write in one style (i.e. in es6/7).
+
+So, in order to ease all achievement of all these goals you can use this tool.
+Basically, this utility uses babel with necessary presets to transpile server and shared code into compatible with node 6.
+
+# How to use
 
 ## New project
 
 1. Init project with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app)
-2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency:
-   `yarn add -D firebase-tools` or `npm i -D firebase-tools`
-3. Init project with firebase `yarn firebase-tools init` or `$(npm bin)/firebase init`
+2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency or a global module - this is up to ypur personal taste:
+   `yarn add -D firebase-tools` or `npm i -D firebase-tools` or `npm i -G firebase-tools`
+3. Init project with firebase `yarn firebase-tools init` or `$(npm bin)/firebase init` or `firebase init`
 4. During initialization check `functions` and `hosting` options
+5. Add [cra-firebase]() (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
+6. Run `yarn cra-firebase init` or `$(npm bin)/cra-firebase init`
+
+## Existing projects
+1. Add [cra-firebase]() (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
+2. Add command into `package.json` `scripts` which will execute this line `cra-firebase build`
 
 
 # About directory structure:
