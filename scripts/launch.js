@@ -38,7 +38,7 @@ const launch = (spawn, resolver) => {
         }
         process.exit(result.status)
       } catch (error) {
-        console.error('Error while executign script', error)
+        console.error('Error while executign script', error.message)
       }
       break
     }

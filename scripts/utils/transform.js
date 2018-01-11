@@ -1,5 +1,6 @@
 const path = require('path')
 const { outputFile } = require('fs-extra')
+const { errOut } = require('./logging')
 
 const {
   srcDir,
@@ -11,7 +12,7 @@ const {
 const tf = require('./tf')
 const outputName = require('./outputName')
 
-const transform = inputFilename =>
+const transform = (inputFilename, errOutput = errOut) =>
   tf(inputFilename)
     .then((transpiled) => {
       if (path.basename(inputFilename) === serverIndexInput) {
@@ -27,12 +28,6 @@ const transform = inputFilename =>
       }
     })
     .then(({ transpiled, outputFilename }) => outputFile(outputFilename, transpiled))
-    .catch((error) => {
-      /* eslint-disable no-param-reassign */
-      error.type = 'PROCESS_FILE'
-      error.inputFilename = inputFilename
-      /* eslint-enable no-param-reassign */
-      return Promise.reject(error)
-    })
+    .catch(error => errOutput(`${error.stack}`))
 
 module.exports = transform

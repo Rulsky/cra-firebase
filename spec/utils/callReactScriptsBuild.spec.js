@@ -11,3 +11,17 @@ it('spawns proper cra script', () => {
   })
   expect(spawn.sync).toHaveBeenCalledTimes(1)
 })
+
+it('returns error if process will signal', () => {
+  const spawn = {
+    sync: jest.fn(() => ({
+      signal: 'SIGKILL',
+      status: 0,
+    })),
+  }
+
+  const expected = new Error('error while building client code')
+  expected.type = 'CRA_BUILD'
+
+  expect(callReactScriptsBuild(spawn)).toEqual(expected)
+})

@@ -11,13 +11,15 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage",
+    "prepush": "npm test"
   },
   "devDependencies": {
     "eslint": "^4.13.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3",
     "jest": "^21.2.1"
   },
   "dependencies": {

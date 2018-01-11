@@ -48,10 +48,6 @@ const build = (
         case 'CRA_BUILD':
           errOut('create-react-app build script failed', error)
           break
-        case 'PROCESS_FILE':
-          errOut(`ERROR while transpiling with babel this file:\nfile: ${error.inputFilename}\n what's wrong:`)
-          console.error(error) // eslint-disable-line no-console
-          break
         default:
           errOut('', error)
       }
