@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Rulsky/cra-firebase.svg?branch=ci-cd)](https://travis-ci.org/Rulsky/cra-firebase)
+[![Coverage Status](https://coveralls.io/repos/github/Rulsky/cra-firebase/badge.svg?branch=master)](https://coveralls.io/github/Rulsky/cra-firebase?branch=master)
+
 # cra-firebase
 
 This is a helper library which helps to implement server-side rendering (SSR) of project started with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app) in [google's firebase (FBS)](https://firebase.google.com/)
