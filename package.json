@@ -1,8 +1,7 @@
 {
   "name": "cra-firebase",
   "version": "0.0.1",
-  "description":
-    "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
+  "description": "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
   "bin": {
     "cra-firebase": "./index.js"
   },
@@ -10,7 +9,11 @@
   "author": "Ruslan Zaytsev <ruslan.zaytsev@gmail.com>",
   "license": "MIT",
   "private": true,
-  "files": ["scripts", "config", "index.js"],
+  "files": [
+    "scripts",
+    "config",
+    "index.js"
+  ],
   "engines": {
     "node": ">=8.9.3",
     "npm": ">=5.2.0"
@@ -27,7 +30,8 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "husky": "^0.14.3",
-    "jest": "^21.2.1"
+    "jest": "^21.2.1",
+    "np": "^2.18.3"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
