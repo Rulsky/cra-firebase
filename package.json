@@ -1,19 +1,16 @@
 {
   "name": "cra-firebase",
   "version": "1.0.0",
-  "description": "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
+  "description":
+    "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
   "bin": {
     "cra-firebase": "./index.js"
   },
   "repository": "git@github.com:Rulsky/cra-ssr-firebase.git",
   "author": "Ruslan Zaytsev <ruslan.zaytsev@gmail.com>",
   "license": "MIT",
-  "private": true,
-  "files": [
-    "scripts",
-    "config",
-    "index.js"
-  ],
+  "private": false,
+  "files": ["scripts", "config", "index.js"],
   "engines": {
     "node": ">=8.9.3",
     "npm": ">=5.2.0"
