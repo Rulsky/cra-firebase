@@ -27,7 +27,7 @@ Basically, this utility uses babel with necessary presets to transpile server an
    `yarn add -D firebase-tools` or `npm i -D firebase-tools` or `npm i -G firebase-tools`
 3. Init project with firebase `yarn firebase-tools init` or `$(npm bin)/firebase init` or `firebase init`
 4. During initialization check `functions` and `hosting` options
-5. Add [cra-firebase]() (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
+5. Add [cra-firebase](https://www.npmjs.com/package/cra-firebase) (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
 6. Run `yarn cra-firebase init` or `$(npm bin)/cra-firebase init`
 
 ## Existing projects
