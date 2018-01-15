@@ -1,6 +1,7 @@
 const { readJsonSync } = require('fs-extra')
 const { join } = require('path')
 const defaultBabelConf = require('../../config/babel.conf.js')
+const getCliArgs = require('./getCliArgs')
 
 const configureBabel = () => {
   const params = {
@@ -38,24 +39,9 @@ const configureBabel = () => {
     addElemsToConfig(babelrc)
   }
 
-  const cliArgs = process.argv.slice(2)
-  if (cliArgs.length > 0) {
-    const cliParams = {
-      presets: '--presets=',
-      plugins: '--plugins=',
-    }
-
-    Object.keys(cliParams).forEach((param) => {
-      const arg = cliArgs.find(el => el.startsWith(cliParams[param]))
-      if (arg) {
-        arg
-          .split(cliParams[param])[1]
-          .split(',')
-          .forEach((pr) => {
-            params[param].add(pr)
-          })
-      }
-    })
+  const cArgs = getCliArgs(['presets', 'plugins'])
+  if (cArgs) {
+    Object.keys(cArgs).forEach(p => cArgs[p].forEach(ca => params[p].add(ca)))
   }
 
   return {
