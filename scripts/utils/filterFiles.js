@@ -1,17 +1,18 @@
 const { readJsonSync } = require('fs-extra')
 const { join } = require('path')
+const getCliArgs = require('./getCliArgs')
 
 const ft = {
-  included: ['.js', '.jsx', '.svg'],
-  excluded: ['spec.js', 'test.js'],
+  include: ['.js', '.jsx', '.svg'],
+  exclude: ['spec.js', 'test.js'],
 }
 
 const addFiletypes = (conf) => {
   if (conf.include) {
-    conf.include.forEach(el => ft.included.push(el))
+    conf.include.forEach(el => ft.include.push(el))
   }
   if (conf.exclude) {
-    conf.exclude.forEach(el => ft.excluded.push(el))
+    conf.exclude.forEach(el => ft.exclude.push(el))
   }
 }
 
@@ -32,28 +33,13 @@ const filterFiles = (filename) => {
     addFiletypes(crafirebaserc)
   }
 
-  const cliArgs = process.argv.slice(2)
-  if (cliArgs.length > 0) {
-    const cliParams = {
-      included: '--include=',
-      excluded: '--exclude=',
-    }
-
-    Object.keys(cliParams).forEach((param) => {
-      const arg = cliArgs.find(el => el.startsWith(cliParams[param]))
-      if (arg) {
-        arg
-          .split(cliParams[param])[1]
-          .split(',')
-          .forEach((pr) => {
-            ft[param].push(pr)
-          })
-      }
-    })
+  const cliArgs = getCliArgs(['include', 'exclude'])
+  if (cliArgs) {
+    Object.keys(cliArgs).forEach(p => ft[p].push(...cliArgs[p]))
   }
 
-  const includedResults = ft.included.map(ftype => filename.substr(-ftype.length) === ftype)
-  const excludedResults = ft.excluded.map(ftype => filename.substr(-ftype.length) !== ftype)
+  const includedResults = ft.include.map(ftype => filename.substr(-ftype.length) === ftype)
+  const excludedResults = ft.exclude.map(ftype => filename.substr(-ftype.length) !== ftype)
   return includedResults.includes(true) && !excludedResults.includes(false)
 }
 
