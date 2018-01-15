@@ -1,5 +1,3 @@
-// TODO: exept additional plugins and presets and merge them into this one
-
 module.exports = {
   babelrc: false,
   presets: [
