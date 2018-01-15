@@ -7,6 +7,7 @@ describe('filterFiles', () => {
     jest.resetModules()
     jest.mock('../../config/filelist')
     process.argv = []
+    jest.mock('../../scripts/utils/getPropFromJSONFile', () => () => null)
   })
 
   const given = [
@@ -43,16 +44,15 @@ describe('filterFiles', () => {
 
   /* eslint-disable no-underscore-dangle, global-require */
   it('reads more params from package.json cra-firebase', () => {
-    const packageName = join(process.cwd(), 'package.json')
-    const fileMock = {
-      [packageName]: JSON.stringify({
-        crafirebase: {
+    jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
+      if (arg.indexOf('package.json') > 0) {
+        return {
           exclude: ['trash', 'txt.ts'],
           include: ['.ts', '.sh'],
-        },
-      }),
-    }
-    require('fs-extra').__setFilesManifest(fileMock)
+        }
+      }
+      return null
+    })
     const filterFilesWithMocks = require('../../scripts/utils/filterFiles')
 
     const newGiven = given.concat([
@@ -73,16 +73,15 @@ describe('filterFiles', () => {
   })
 
   it('reads more params from .crafirebaserc.json', () => {
-    const filename = join(process.cwd(), '.crafirebaserc.json')
-    const fileMock = {
-      [filename]: JSON.stringify({
-        crafirebase: {
+    jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
+      if (arg.indexOf('.crafirebaserc.json') > 0) {
+        return {
           exclude: ['trash', 'txt.ts'],
           include: ['.ts', '.sh'],
-        },
-      }),
-    }
-    require('fs-extra').__setFilesManifest(fileMock)
+        }
+      }
+      return null
+    })
     const filterFilesWithMocks = require('../../scripts/utils/filterFiles')
 
     const newGiven = given.concat([

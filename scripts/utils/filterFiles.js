@@ -1,6 +1,6 @@
-const { readJsonSync } = require('fs-extra')
 const { join } = require('path')
 const getCliArgs = require('./getCliArgs')
+const getPropFromJSONFile = require('./getPropFromJSONFile')
 
 const ft = {
   include: ['.js', '.jsx', '.svg'],
@@ -17,18 +17,12 @@ const addFiletypes = (conf) => {
 }
 
 const filterFiles = (filename) => {
-  let packageConf
-  try {
-    packageConf = JSON.parse(readJsonSync(join(process.cwd(), 'package.json'))).crafirebase
-  } catch (e) {} // eslint-disable-line no-empty
+  const packageConf = getPropFromJSONFile(join(process.cwd(), 'package.json'), 'crafirebase')
   if (packageConf) {
     addFiletypes(packageConf)
   }
 
-  let crafirebaserc
-  try {
-    crafirebaserc = JSON.parse(readJsonSync(join(process.cwd(), '.crafirebaserc.json'))).crafirebase
-  } catch (e) {} // eslint-disable-line no-empty
+  const crafirebaserc = getPropFromJSONFile(join(process.cwd(), '.crafirebaserc.json'))
   if (crafirebaserc) {
     addFiletypes(crafirebaserc)
   }

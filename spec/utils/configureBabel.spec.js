@@ -1,11 +1,12 @@
 const { join } = require('path')
-const configureBabel = require('../../scripts/utils/configureBabel')
 
+/* eslint-disable no-underscore-dangle, global-require */
 describe('configureBabel', () => {
   beforeEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
     process.argv = []
+    jest.mock('../../scripts/utils/getPropFromJSONFile', () => () => null)
   })
 
   describe('CLI arguments', () => {
@@ -30,7 +31,7 @@ describe('configureBabel', () => {
         ],
         plugins: [],
       }
-
+      const configureBabel = require('../../scripts/utils/configureBabel')
       expect(configureBabel()).toEqual(expected)
     })
 
@@ -54,6 +55,7 @@ describe('configureBabel', () => {
         plugins: ['plugin-one', 'plugin-two'],
       }
 
+      const configureBabel = require('../../scripts/utils/configureBabel')
       expect(configureBabel()).toEqual(expected)
     })
 
@@ -85,7 +87,7 @@ describe('configureBabel', () => {
           '--presets=preset-pr1,preset-pr2,preset3',
           '--plugins=plugin-pl1,plugin-pl2',
         ]
-
+        const configureBabel = require('../../scripts/utils/configureBabel')
         expect(configureBabel()).toEqual(expected)
       })
       it('first comes "--plugins", then "--presets"', () => {
@@ -95,7 +97,7 @@ describe('configureBabel', () => {
           '--plugins=plugin-pl1,plugin-pl2',
           '--presets=preset-pr1,preset-pr2,preset3',
         ]
-
+        const configureBabel = require('../../scripts/utils/configureBabel')
         expect(configureBabel()).toEqual(expected)
       })
     })
@@ -121,20 +123,20 @@ describe('configureBabel', () => {
         ],
         plugins: [],
       }
+      const configureBabel = require('../../scripts/utils/configureBabel')
       expect(configureBabel()).toEqual(expected)
     })
   })
-  /* eslint-disable no-underscore-dangle, global-require */
   describe('babelrc', () => {
     it('reads presets from babelrc file', () => {
-      const mockFilename = join(process.cwd(), '.babelrc')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          presets: ['pres1', 'pr2', 'preset3'],
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
+        if (arg.indexOf('.babelrc') > 0) {
+          return {
+            presets: ['pres1', 'pr2', 'preset3'],
+          }
+        }
+        return null
+      })
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {
@@ -160,14 +162,14 @@ describe('configureBabel', () => {
       expect(configureBabelwithMock()).toEqual(expected)
     })
     it('reads plugins from babelrc file', () => {
-      const mockFilename = join(process.cwd(), '.babelrc')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          plugins: ['plug1', 'pl2', 'plugin3'],
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
+        if (arg.indexOf('.babelrc') > 0) {
+          return {
+            plugins: ['plug1', 'pl2', 'plugin3'],
+          }
+        }
+        return null
+      })
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {
@@ -190,15 +192,15 @@ describe('configureBabel', () => {
       expect(configureBabelwithMock()).toEqual(expected)
     })
     it('reads presets and plugins from babelrc file', () => {
-      const mockFilename = join(process.cwd(), '.babelrc')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          presets: ['pres1', 'pr2', 'preset3'],
-          plugins: ['plug1', 'pl2', 'plugin3'],
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
+        if (arg.indexOf('.babelrc') > 0) {
+          return {
+            presets: ['pres1', 'pr2', 'preset3'],
+            plugins: ['plug1', 'pl2', 'plugin3'],
+          }
+        }
+        return null
+      })
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {
@@ -226,16 +228,9 @@ describe('configureBabel', () => {
   })
   describe('reads config from "package.json" from prop "babel"', () => {
     it('reads presets', () => {
-      const mockFilename = join(process.cwd(), 'package.json')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          babel: {
-            presets: ['pres1', 'pr2', 'preset3'],
-          },
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => () => ({
+        presets: ['pres1', 'pr2', 'preset3'],
+      }))
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {
@@ -261,16 +256,9 @@ describe('configureBabel', () => {
       expect(configureBabelwithMock()).toEqual(expected)
     })
     it('reads plugins', () => {
-      const mockFilename = join(process.cwd(), 'package.json')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          babel: {
-            plugins: ['plug1', 'pl2', 'plugin3'],
-          },
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => () => ({
+        plugins: ['plug1', 'pl2', 'plugin3'],
+      }))
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {
@@ -293,17 +281,10 @@ describe('configureBabel', () => {
       expect(configureBabelwithMock()).toEqual(expected)
     })
     it('reads presets and plugins', () => {
-      const mockFilename = join(process.cwd(), 'package.json')
-      const mockFileManifest = {
-        [mockFilename]: JSON.stringify({
-          babel: {
-            presets: ['pres1', 'pr2', 'preset3'],
-            plugins: ['plug1', 'pl2', 'plugin3'],
-          },
-        }),
-      }
-
-      require('fs-extra').__setFilesManifest(mockFileManifest)
+      jest.mock('../../scripts/utils/getPropFromJSONFile', () => () => ({
+        presets: ['pres1', 'pr2', 'preset3'],
+        plugins: ['plug1', 'pl2', 'plugin3'],
+      }))
       const configureBabelwithMock = require('../../scripts/utils/configureBabel')
 
       const expected = {

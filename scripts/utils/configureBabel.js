@@ -1,7 +1,7 @@
-const { readJsonSync } = require('fs-extra')
 const { join } = require('path')
 const defaultBabelConf = require('../../config/babel.conf.js')
 const getCliArgs = require('./getCliArgs')
+const getPropFromJSONFile = require('./getPropFromJSONFile')
 
 const configureBabel = () => {
   const params = {
@@ -11,30 +11,19 @@ const configureBabel = () => {
 
   const addElemsToConfig = (obj) => {
     if (obj.presets) {
-      obj.presets.forEach((el) => {
-        params.presets.add(el)
-      })
+      obj.presets.forEach(el => params.presets.add(el))
     }
-
     if (obj.plugins) {
-      obj.plugins.forEach((el) => {
-        params.plugins.add(el)
-      })
+      obj.plugins.forEach(el => params.plugins.add(el))
     }
   }
 
-  let packageBabel
-  try {
-    packageBabel = JSON.parse(readJsonSync(join(process.cwd(), 'package.json'))).babel
-  } catch (e) {} // eslint-disable-line no-empty
+  const packageBabel = getPropFromJSONFile(join(process.cwd(), 'package.json'), 'babel')
   if (packageBabel) {
     addElemsToConfig(packageBabel)
   }
 
-  let babelrc
-  try {
-    babelrc = JSON.parse(readJsonSync(join(process.cwd(), '.babelrc')))
-  } catch (e) {} // eslint-disable-line no-empty
+  const babelrc = getPropFromJSONFile(join(process.cwd(), '.babelrc'))
   if (babelrc) {
     addElemsToConfig(babelrc)
   }
