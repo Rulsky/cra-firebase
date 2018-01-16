@@ -1,11 +1,11 @@
 const { join } = require('path')
 const { readJsonSync } = require('fs-extra')
+const { root, srcDir } = require('./consts')
+const getServerIndexFilaname = require('./getServerIndexFilaname')
 
-const root = process.cwd()
 const fbsConf = readJsonSync(join(root, 'firebase.json'))
 const firebaseFunctionsDir = fbsConf.functions ? fbsConf.functions.source : 'functions'
-const srcDir = join(root, 'src')
-const serverIndexInput = 'server.index.js'
+const serverIndexInput = getServerIndexFilaname()
 const outIndex = join(root, firebaseFunctionsDir, 'index.js')
 const craBuildIndex = join(root, 'build/index.html')
 
