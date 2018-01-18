@@ -13,32 +13,115 @@ describe('init script', () => {
     jest.resetModules()
     jest.mock('../config/filelist')
   })
+  /* eslint-disable global-require */
+  describe('default behaviour with -y flag passed as cli arg', () => {
+    beforeEach(() => {
+      process.argv = ['', '', '-y']
+    })
 
-  it('runs updatePack and updateGitignore', () => {
-    const init = require('../scripts/init') // eslint-disable-line global-require
-    expect.assertions(3)
-    return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
-      expect(updatePackMock).toHaveBeenCalledTimes(1)
-      expect(addRewrites).toHaveBeenCalledTimes(1)
-      expect(updateGitignore).toHaveBeenCalledTimes(1)
+    it('runs updatePack and updateGitignore', () => {
+      const init = require('../scripts/init')
+      expect.assertions(3)
+      return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
+        expect(updatePackMock).toHaveBeenCalledTimes(1)
+        expect(addRewrites).toHaveBeenCalledTimes(1)
+        expect(updateGitignore).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    it('informs about progress', () => {
+      const init = require('../scripts/init')
+      expect.assertions(2)
+      return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
+        expect(loggingMock.okOut).toHaveBeenCalledTimes(1)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+      })
+    })
+
+    it('informs about failure', () => {
+      const init = require('../scripts/init')
+      expect.assertions(1)
+      const updatePackMockWithErr = jest.fn(() => () => Promise.reject(new Error()))
+      return init(updatePackMockWithErr, updateGitignore, addRewrites, loggingMock).then(() => {
+        expect(loggingMock.errOut).toHaveBeenCalledTimes(1)
+      })
     })
   })
 
-  it('informs about progress', () => {
-    const init = require('../scripts/init') // eslint-disable-line global-require
-    expect.assertions(2)
-    return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
-      expect(loggingMock.okOut).toHaveBeenCalledTimes(1)
-      expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+  describe('step-by-step with prompt', () => {
+    beforeEach(() => {
+      process.argv = ['', '']
+    })
+
+    it('yes to all', () => {
+      const init = require('../scripts/init')
+      const propmtMock = jest.fn()
+      propmtMock
+        .mockReturnValueOnce(Promise.resolve('yes'))
+        .mockReturnValueOnce(Promise.resolve('Y'))
+        .mockReturnValueOnce(Promise.resolve('YES'))
+        .mockReturnValueOnce(Promise.resolve('y'))
+      expect.assertions(4)
+      return init(
+        updatePackMock,
+        updateGitignore,
+        addRewrites,
+        loggingMock,
+        propmtMock,
+      ).then(() => {
+        expect(updatePackMock).toHaveBeenCalledTimes(1)
+        expect(addRewrites).toHaveBeenCalledTimes(1)
+        expect(updateGitignore).toHaveBeenCalledTimes(1)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+      })
+    })
+
+    it('no to all', () => {
+      const init = require('../scripts/init')
+      const propmtMock = jest.fn()
+      propmtMock
+        .mockReturnValueOnce(Promise.resolve('No'))
+        .mockReturnValueOnce(Promise.resolve('NO'))
+        .mockReturnValueOnce(Promise.resolve('n'))
+        .mockReturnValueOnce(Promise.resolve('N'))
+      expect.assertions(4)
+      return init(
+        updatePackMock,
+        updateGitignore,
+        addRewrites,
+        loggingMock,
+        propmtMock,
+      ).then(() => {
+        expect(updatePackMock).toHaveBeenCalledTimes(0)
+        expect(addRewrites).toHaveBeenCalledTimes(0)
+        expect(updateGitignore).toHaveBeenCalledTimes(0)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+      })
+    })
+
+    it('informs about failure', () => {
+      const init = require('../scripts/init')
+      expect.assertions(1)
+      const updatePackMockWithErr = jest.fn(() => () => Promise.reject(new Error()))
+      const propmtMock = jest.fn(() => Promise.reject(new Error()))
+      return init(
+        updatePackMockWithErr,
+        updateGitignore,
+        addRewrites,
+        loggingMock,
+        propmtMock,
+      ).then(() => {
+        expect(loggingMock.errOut).toHaveBeenCalledTimes(1)
+      })
     })
   })
 
-  it('informs about failure', () => {
-    const init = require('../scripts/init') // eslint-disable-line global-require
-    expect.assertions(1)
-    const updatePackMockWithErr = jest.fn(() => () => Promise.reject(new Error()))
-    return init(updatePackMockWithErr, updateGitignore, addRewrites, loggingMock).then(() => {
-      expect(loggingMock.errOut).toHaveBeenCalledTimes(1)
+  describe('test coverage tool satisfaction', () => {
+    it('first', () => {
+      const init = require('../scripts/init')
+      expect(() => {
+        init(null)
+      }).toThrow()
     })
   })
 })
