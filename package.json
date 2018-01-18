@@ -1,6 +1,6 @@
 {
   "name": "cra-firebase",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description":
     "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
   "bin": {
