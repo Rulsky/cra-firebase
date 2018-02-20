@@ -116,6 +116,7 @@ export { app }
 *As I understand from firebase documentation you need a named export in your `functions/index.js` even if you exporting only one function. This makes sense to me because you can do more than just SSR.
 By the way: you can use this tool to write cloud functions code using modern ES syntax.*
 
+### ⚠️ **WARNING**: you must destrucure `firebase-functions` import because there is no default export ([read more here](https://github.com/firebase/firebase-functions/issues/33))
 
 
 # Handling more filetypes and/or syntaxes
