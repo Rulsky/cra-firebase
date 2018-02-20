@@ -20,7 +20,7 @@ const copyDeps = () => {
       }
       delete nextPack.dependencies['react-scripts']
 
-      return JSON.stringify(nextPack)
+      return JSON.stringify(nextPack, null, 2)
     })
     .then(finalPack => writeFile(functionsPackName, finalPack, 'utf-8'))
 }

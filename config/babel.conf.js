@@ -5,7 +5,7 @@ module.exports = {
       'env',
       {
         targets: {
-          node: '6.11.1',
+          node: '6',
         },
       },
     ],

@@ -23,9 +23,9 @@ Basically, this utility uses babel with necessary presets to transpile server an
 ## New project
 
 1. Init project with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app)
-2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency or a global module - this is up to ypur personal taste:
+2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency or a global module - this is up to your personal taste:
    `yarn add -D firebase-tools` or `npm i -D firebase-tools` or `npm i -G firebase-tools`
-3. Init project with firebase `yarn firebase-tools init` or `$(npm bin)/firebase init` or `firebase init`
+3. Init project with firebase `yarn firebase init` or `$(npm bin)/firebase init` or `firebase init`
 4. During initialization check `functions` and `hosting` options
 5. As a hosting dir specify `build`
 6. Add [cra-firebase](https://www.npmjs.com/package/cra-firebase) (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
