@@ -20,7 +20,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -45,7 +45,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -67,7 +67,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -111,7 +111,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -146,7 +146,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -179,7 +179,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -210,7 +210,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -240,7 +240,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -268,7 +268,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -294,7 +294,7 @@ describe('configureBabel', () => {
             'env',
             {
               targets: {
-                node: '6.11.1',
+                node: '6.11.5',
               },
             },
           ],
@@ -337,7 +337,7 @@ describe('configureBabel', () => {
           'env',
           {
             targets: {
-              node: '6.11.1',
+              node: '6.11.5',
             },
           },
         ],
