@@ -23,9 +23,9 @@ Basically, this utility uses babel with necessary presets to transpile server an
 ## New project
 
 1. Init project with help of [create-react-app (CRA)](https://github.com/facebookincubator/create-react-app)
-2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency or a global module - this is up to ypur personal taste:
+2. Install [firebase-tools](https://www.npmjs.com/package/firebase-tools) as a npm devDependency or a global module - this is up to your personal taste:
    `yarn add -D firebase-tools` or `npm i -D firebase-tools` or `npm i -G firebase-tools`
-3. Init project with firebase `yarn firebase-tools init` or `$(npm bin)/firebase init` or `firebase init`
+3. Init project with firebase `yarn firebase init` or `$(npm bin)/firebase init` or `firebase init`
 4. During initialization check `functions` and `hosting` options
 5. As a hosting dir specify `build`
 6. Add [cra-firebase](https://www.npmjs.com/package/cra-firebase) (e.g. this utility) as a devDependency: `yarn add -D cra-firebase` or `npm i -D cra-firebase`
@@ -116,6 +116,7 @@ export { app }
 *As I understand from firebase documentation you need a named export in your `functions/index.js` even if you exporting only one function. This makes sense to me because you can do more than just SSR.
 By the way: you can use this tool to write cloud functions code using modern ES syntax.*
 
+### ⚠️ **WARNING**: you must destrucure `firebase-functions` import because there is no default export ([read more here](https://github.com/firebase/firebase-functions/issues/33))
 
 
 # Handling more filetypes and/or syntaxes
@@ -169,3 +170,33 @@ An example of `.crafirebaserc.json`:
 The examples of CLI commands:
   - exclude: `--exclude=.sh,.tmp`
   - include: `--include=.txt,.ts`
+
+
+# Known problems
+Assets like SVG and css aren't fit well within server. Because node expects plain javascript.
+
+You can add additional babel transformers and file designated to be transformed (instructions below). But bear in mind that during transformation import statements must be altered to address proper filenames. i.e. if in your src
+```javascript
+import icon from 'icon.svg'
+```
+In your output file should be something like this
+```javascript
+const icon = require('icon')
+```
+
+### Alternative solutions:
+**for SVG**: convert SVG into plain react components with any tool. For example [SVGR](https://github.com/smooth-code/svgr).
+
+And for styles use something more suitable into SSR.
+
+# Configuration
+This utility allowed to be configured via `.crafirebaserc.json` or a `crafirebase` section in root's `package.json`
+
+What could be configured:
+
+| config field  | default value           | description                               |
+| :------------ | :--------------         | ----------------------------------------- |
+| index         | server.index.js         | filename of source of server's index file |
+| include       | ['.js', '.jsx', '.svg'] | file extensions which should be transformed with help of babel and moved into functions. Default values are NOT overwritten, which means they will be merged   |
+| exclude       | ['spec.js', 'test.js']  | file extensions which should be excluded from copy/transform. Default values are NOT overwritten, which means they will be merged                           |
+|               |                         |                                           |

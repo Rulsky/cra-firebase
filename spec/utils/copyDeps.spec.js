@@ -58,7 +58,7 @@ describe('copyDeps', () => {
         firebase: '^4.8.1',
       },
       private: true,
-    })
+    }, null, 2)
 
     return copyDeps().then((actual) => {
       expect(actual.filename).toEqual(functionsPackName)
