@@ -170,3 +170,21 @@ An example of `.crafirebaserc.json`:
 The examples of CLI commands:
   - exclude: `--exclude=.sh,.tmp`
   - include: `--include=.txt,.ts`
+
+
+# Known problems
+Assets like SVG and css aren't fit well within server. Because node expects plain javascript.
+
+You can add additional babel transformers and file designated to be transformed (instructions below). But bear in mind that during transformation import statements must be altered to address proper filenames. i.e. if in your src
+```javascript
+import icon from 'icon.svg'
+```
+In your output file should be something like this
+```javascript
+const icon = require('icon')
+```
+
+### Alternative solutions:
+**for SVG**: convert SVG into plain react components with any tool. For example [SVGR](https://github.com/smooth-code/svgr).
+
+And for styles use something more suitable into SSR.

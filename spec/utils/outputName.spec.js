@@ -13,7 +13,7 @@ describe('producec correct absolute filename', () => {
     const currDir = join(process.cwd(), 'src')
     const destDir = 'lib'
     const inputName = join(currDir, 'testname.txt')
-    const expected = join(process.cwd(), destDir, 'testname.txt')
+    const expected = join(process.cwd(), destDir, 'testname.js')
 
     expect(outputName(inputName, currDir, destDir)).toEqual(expected)
   })
@@ -22,7 +22,7 @@ describe('producec correct absolute filename', () => {
     const currDir = join(process.cwd(), 'test-test')
     const destDir = 'functions'
     const inputName = join(currDir, 'testname.txt')
-    const expected = join(process.cwd(), destDir, 'testname.txt')
+    const expected = join(process.cwd(), destDir, 'testname.js')
 
     expect(outputName(inputName, currDir, destDir)).toEqual(expected)
   })
