@@ -188,3 +188,15 @@ const icon = require('icon')
 **for SVG**: convert SVG into plain react components with any tool. For example [SVGR](https://github.com/smooth-code/svgr).
 
 And for styles use something more suitable into SSR.
+
+# Configuration
+This utility allowed to be configured via `.crafirebaserc.json` or a `crafirebase` section in root's `package.json`
+
+What could be configured:
+
+| config field  | default value           | description                               |
+| :------------ | :--------------         | ----------------------------------------- |
+| index         | server.index.js         | filename of source of server's index file |
+| include       | ['.js', '.jsx', '.svg'] | file extensions which should be transformed with help of babel and moved into functions. Default values are NOT overwritten, which means they will be merged   |
+| exclude       | ['spec.js', 'test.js']  | file extensions which should be excluded from copy/transform. Default values are NOT overwritten, which means they will be merged                           |
+|               |                         |                                           |
