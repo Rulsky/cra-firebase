@@ -1,3 +1,7 @@
+## [1.2.0] - 2018 FEB 22
+### Added
+- add version output with 'vesrion' command
+
 ## [1.1.3] - 2018 FEB 21
 ### Fixed
 - output filenames extension is now '.js'
