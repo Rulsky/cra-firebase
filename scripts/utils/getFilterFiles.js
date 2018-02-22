@@ -14,7 +14,7 @@ const addFiletypes = (conf, acc) => {
 
 const getFilterFiles = () => {
   const ft = {
-    include: ['.js', '.jsx', '.svg'],
+    include: ['.js', '.jsx'],
     exclude: ['spec.js', 'test.js'],
   }
 
