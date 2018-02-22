@@ -40,9 +40,6 @@ const start = (wt = watcher) => {
       removeSync(outputName(path, srcDir, firebaseFunctionsDir))
       rmColor(`File ${path} has been removed`)
     })
-
-  // More possible events.
-  wt
     .on('error', error => errOut(`Watcher error: ${error}`))
     .on('ready', () => info(chalk.green('First run is complete.\nListening for changes...')))
 
