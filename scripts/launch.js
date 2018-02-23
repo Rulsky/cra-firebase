@@ -11,6 +11,7 @@ const launch = (spawn, resolver) => {
   const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : []
 
   switch (script) {
+    case 'version':
     case 'init':
     case 'build':
     case 'start': {

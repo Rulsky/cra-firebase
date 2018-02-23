@@ -32,8 +32,6 @@ describe('filterFiles', () => {
     join(__dirname, 'components', 'button.jsx'),
     join(__dirname, 'containers', 'user.js'),
     join(__dirname, 'containers', 'dashboard.js'),
-    join(__dirname, 'icons', 'ico.svg'),
-    join(__dirname, 'icons', 'logo.svg'),
   ]
 
   it('default filtering', () => {
