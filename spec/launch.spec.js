@@ -70,7 +70,7 @@ describe('known cli arguments', () => {
     expect(spawn.sync).toHaveBeenCalledTimes(1)
     expect(spawn.sync).toBeCalledWith('node', expectedPath, { stdio: 'inherit' })
   })
-
+  /* eslint-disable no-console */
   it('catching in known scripts', () => {
     const moduleName = 'build'
     console.error = jest.fn()
@@ -85,7 +85,6 @@ describe('known cli arguments', () => {
   })
 })
 
-/* eslint-disable no-console */
 describe('signals', () => {
   beforeEach(() => {
     jest.resetAllMocks()

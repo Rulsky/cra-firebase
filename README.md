@@ -37,7 +37,14 @@ Basically, this utility uses babel with necessary presets to transpile server an
   - A) Add command into `package.json` `scripts` which will execute this line `cra-firebase build`
   - B) run `yarn cra-firebase init` to get step-by-step process of updating your project
 
-# Commands description
+# Commands 
+- `init` - initialize project.
+- `build` - builds ypu project.
+- `start` - watches your src files and transforms them into node 6 compatible code.
+- `version` - outputs current version of this utility.
+
+
+## Description of the commands
 
 ## What happens when you run the `init -y` command:
   1. Modifies your project's `package.json` file and replaces CRA's `build` script with own. Don't worry: during the running of cra-firebase build, it also runs CRA build scripts.
@@ -59,6 +66,15 @@ Basically, this utility uses babel with necessary presets to transpile server an
   6. Deletes `build/index.html`. This is crucial to make SSR to work. Otherwise, firebase will ignore your rewrite rule.
   7. Copies dependencies from your root package.json into functions's
   8. Sets `BABEL_ENV` to the original value.
+
+# Serving firebase cloud functions locally
+run one of:
+
+`yarn firebase serve --only functions,hosting`
+
+or 
+
+`$(npm bin)/firebase serve --only functions,hosting`
 
 # About directories and files structure:
 
@@ -173,6 +189,8 @@ The examples of CLI commands:
 
 
 # Known problems
+Problem of serving firebase locally and development: right now I can't figure how to toss CRA dev tools into firebase serve functionality. So right now you have a localhost:3000 for front-only and localhost:5000 for back-end only.
+
 Assets like SVG and css aren't fit well within server. Because node expects plain javascript.
 
 You can add additional babel transformers and file designated to be transformed (instructions below). But bear in mind that during transformation import statements must be altered to address proper filenames. i.e. if in your src
