@@ -1,6 +1,7 @@
-## [1.2.0] - 2018 FEB 22
+## [1.2.0] - 2018 FEB 23
 ### Added
 - add version output with 'vesrion' command
+- add start command to watch for source and compile
 
 ## [1.1.3] - 2018 FEB 21
 ### Fixed
