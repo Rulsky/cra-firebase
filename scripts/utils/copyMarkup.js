@@ -6,7 +6,15 @@ const { root, firebaseFunctionsDir, craBuildIndex } = require('../../config/file
 const outputFile = join(root, firebaseFunctionsDir, 'markup.js')
 const searchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
 
-const expressFunction = markup => `module.exports = content => \`${markup}\`\n`
+const expressFunction = markup => `module.exports = (content, additional = null) => {
+  let more = ''
+  if (additional) {
+    more = \`< script charset = "UTF-8" >
+    \${Object.keys(additional).reduce((acc, key) => \`\${acc}\\n\${key}=\${JSON.stringify(additional[key])};\`, '')}
+    </script >\`
+  }
+  return \`${markup}\`
+}`
 
 const copyMarkup = () =>
   readFile(craBuildIndex, 'utf-8')
@@ -17,9 +25,10 @@ const copyMarkup = () =>
         const err = new Error(`no string matching ${searchCriteria}`)
         return Promise.reject(err)
       }
-      const openHtmlElem = searchResult[0].substring(0, searchResult[0].indexOf('</div>'))
-      const replacement = `${openHtmlElem} \${content} `
-      const newMarkup = content.replace(openHtmlElem, replacement)
+      const rootDiv = searchResult[0].substring(0, searchResult[0].indexOf('</div>') + 6)
+      // eslint-disable-next-line no-template-curly-in-string
+      const replacement = `${rootDiv.replace('><', '>${content}<')}\${more}`
+      const newMarkup = content.replace(rootDiv, replacement)
       return expressFunction(newMarkup)
     })
     .then(markup => writeFile(outputFile, markup, 'utf-8'))
