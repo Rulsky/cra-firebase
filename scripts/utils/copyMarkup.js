@@ -9,9 +9,9 @@ const searchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
 const expressFunction = markup => `module.exports = (content, additional = null) => {
   let more = ''
   if (additional) {
-    more = \`< script charset = "UTF-8" >
+    more = \`<script charset="UTF-8">
     \${Object.keys(additional).reduce((acc, key) => \`\${acc}\\n\${key}=\${JSON.stringify(additional[key])};\`, '')}
-    </script >\`
+    </script>\`
   }
   return \`${markup}\`
 }`
