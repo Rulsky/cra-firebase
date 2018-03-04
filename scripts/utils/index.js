@@ -6,6 +6,7 @@ const processFiles = require('./processFiles')
 const callReactScriptsBuild = require('./callReactScriptsBuild')
 const copyMarkup = require('./copyMarkup')
 const copyDeps = require('./copyDeps')
+const runNpmI = require('./runNpmI')
 
 module.exports = {
   readFilenames,
@@ -16,4 +17,5 @@ module.exports = {
   callReactScriptsBuild,
   copyMarkup,
   copyDeps,
+  runNpmI,
 }

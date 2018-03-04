@@ -2,7 +2,7 @@ const { removeSync } = require('fs-extra')
 const spawn = require('cross-spawn')
 
 const {
-  processFiles, rm, callReactScriptsBuild, copyMarkup, copyDeps,
+  processFiles, rm, callReactScriptsBuild, copyMarkup, copyDeps, runNpmI,
 } = require('./utils')
 const { craBuildIndex, firebaseFunctionsDir } = require('../config/filelist')
 const { okOut, errOut, infoOut } = require('./utils/logging')
@@ -13,6 +13,7 @@ const build = (
   callRSBuild = callReactScriptsBuild,
   cpMarkup = copyMarkup,
   cpDeps = copyDeps,
+  npmI = runNpmI,
 ) => {
   infoOut('setting BABEL_ENV to production')
   const env = process.env.BABEL_ENV
@@ -39,6 +40,12 @@ const build = (
     })
     .then(() => {
       infoOut('Dependencies copied')
+    })
+    .then(() => {
+      infoOut(`Installing dependencies in ${firebaseFunctionsDir} dir`)
+      return npmI(spawn, firebaseFunctionsDir)
+    })
+    .then(() => {
       infoOut('setting BABEL_ENV to original value')
       process.env.BABEL_ENV = env
     })
