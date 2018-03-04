@@ -61,11 +61,12 @@ Basically, this utility uses babel with necessary presets to transpile server an
   1. Sets `BABEL_ENV` to production - a requirement of the react-app babel preset. It also saves a previous value and restores it in the end.
   2. Deletes CRA `build` directory, and files which cra-firebase generates.
   3. Runs CRA 'build' script.
-  4. Transpiles all code should go into firebase functions.
+  4. Transpiles all code that should go into firebase functions.
   5. Copies `index.html` content into `markup.js`.
   6. Deletes `build/index.html`. This is crucial to make SSR to work. Otherwise, firebase will ignore your rewrite rule.
   7. Copies dependencies from your root package.json into functions's
-  8. Sets `BABEL_ENV` to the original value.
+  8. runs `npm i` inside functions dir
+  9. Sets `BABEL_ENV` to the original value.
 
 # Serving firebase cloud functions locally
 run one of:
@@ -126,7 +127,7 @@ import { https } from 'firebase-functions'
 import { renderToString } from 'react-dom/server'
 import React from 'react'
 import markup from './markup'
-import App from './shared/components/App/App'
+import App from './shared/components/App'
 
 const app = https.onRequest((req, res) => {
   const apphtml = renderToString(<App />)

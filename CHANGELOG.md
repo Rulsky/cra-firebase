@@ -1,3 +1,9 @@
+## [1.3.0] - 2018 MAR 04
+### Added
+- upon build `npm i` is run in functions dir
+### Improver
+- markup generation function now accepts additional object which add global vars into SSR markup
+
 ## [1.2.0] - 2018 FEB 23
 ### Added
 - add version output with 'vesrion' command
