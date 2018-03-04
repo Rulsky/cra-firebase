@@ -70,11 +70,17 @@ Basically, this utility uses babel with necessary presets to transpile server an
 # Serving firebase cloud functions locally
 run one of:
 
+`yarn build`
+`yarn firebase deploy`
 `yarn firebase serve --only functions,hosting`
 
 or 
 
+`npm run build`
+`$(npm bin)/firebase deploy`
 `$(npm bin)/firebase serve --only functions,hosting`
+
+Please keep in mind that firebase hosting will serve static files from your build directory, so upon client hydration you'll finish with old version of your app.
 
 # About directories and files structure:
 
