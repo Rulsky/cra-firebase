@@ -142,6 +142,53 @@ By the way: you can use this tool to write cloud functions code using modern ES 
 ### ⚠️ **WARNING**: you must destrucure `firebase-functions` import because there is no default export ([read more here](https://github.com/firebase/firebase-functions/issues/33))
 
 
+# About `markup.js`
+Because CRA setup of webpack genarates each time assets with dynamic names we need to know those names. And the only availiable approach is to read  `build/index.html` and transform it into function which will accapt additional content and return whole markup as a string. Finally, we can send this string to a user.
+
+`markup.js` exports a single function as a default export.
+
+This function has 3 arguments:
+1. content - required. expects a result of renderToString or similar function, 
+2. scriptsGlabals - optional. Expects a object, which transformed into additional <scripts> in the bottom of a html. 
+keys becomes names for global variables with corresponding values.
+example:
+```javascript
+{
+  'window.__APOLLO_STATE__': 'yourstate',
+  otherKey: 'bla-bla-bla',
+}
+```
+transforms into:
+```html
+<script charset="UTF-8">
+  window.__APOLLO_STATE__="yourstate";
+  otherKey="bla-bla-bla";
+</script>
+```
+3. headNodes - optional. Expects a string of html nodes(tags) which will be injected into the markup. For example, you can inject styles or additional meta. Please note, that headNodes will be injected right before `</head>` closing tag. In another words: it will be the last in the head.
+
+Usage example:
+```javascript
+// in server.index.js
+import { https } from 'firebase-functions'
+import { renderToString } from 'react-dom/server'
+import React from 'react'
+import markup from './markup'
+import App from './shared/components/App'
+
+const app = https.onRequest((req, res) => {
+  const apphtml = renderToString(<App />)
+  const globalVars = {
+    myGlobalVar: 'globalVarValue'
+  }
+  const injectIntoHead = '<meta charset="utf-8">'
+  const finalMarkup = markup(apphtml, globalVars, injectIntoHead)
+  res.status(200).send(finalMarkup)
+})
+
+export { app }
+```
+
 # Handling more filetypes and/or syntaxes
 
 ## Adding more babel presets and plugins

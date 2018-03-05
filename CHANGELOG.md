@@ -1,3 +1,7 @@
+## [1.4.0] - 2018 MAR 05
+### Improver
+- markup generation function now accepts additional string (as the third argument) of html nodes which are injected into head
+
 ## [1.3.0] - 2018 MAR 04
 ### Added
 - upon build `npm i` is run in functions dir
