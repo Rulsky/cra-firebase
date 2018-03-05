@@ -27,27 +27,34 @@ describe('copyMarkup', () => {
   it('write a file with exported function', () => {
     require('fs-extra').__setFilesManifest(mockFileManifest)
     const copyMarkup = require('../../scripts/utils/copyMarkup')
-
     expect.assertions(4)
-
     return copyMarkup().then((actual) => {
-      expect(actual.content).toMatch(/module.exports = \(content, additional = null\) =>/)
+      expect(actual.content).toMatch(/module.exports = \(content, scriptsGlabals = null, headNodes = null\) => {/)
       expect(actual.content).toMatch(/<html.*>/)
       expect(actual.content).toMatch(/<\/html>/)
       expect(actual.content).toMatch(/\${content}/)
     })
   })
 
-  it('contains logic for additional global values processing', () => {
+  it('contains logic for injection additional global values', () => {
     require('fs-extra').__setFilesManifest(mockFileManifest)
     const copyMarkup = require('../../scripts/utils/copyMarkup')
-
-    expect.assertions(3)
-
+    expect.assertions(4)
     return copyMarkup().then((actual) => {
       expect(actual.content).toMatch(/let more = ''/)
-      expect(actual.content).toMatch(/if \(additional\) {/)
-      expect(actual.content).toMatch(/<\/div>\${more}/)
+      expect(actual.content).toMatch(/if \(scriptsGlabals\) {/)
+      expect(actual.content).toMatch(/more = `<script charset="UTF-8">/)
+      expect(actual.content).toMatch(/<\/script>`/)
+    })
+  })
+
+  it('contains logic for injecting more nodes into head', () => {
+    require('fs-extra').__setFilesManifest(mockFileManifest)
+    const copyMarkup = require('../../scripts/utils/copyMarkup')
+    expect.assertions(2)
+    return copyMarkup().then((actual) => {
+      expect(actual.content).toMatch(/headNodes = null\) => {/)
+      expect(actual.content).toMatch(/\${headNodes \|\| ''}<\/head>/)
     })
   })
 

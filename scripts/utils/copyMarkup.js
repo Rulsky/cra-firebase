@@ -1,16 +1,15 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { readFile, writeFile } = require('fs-extra')
 const { join } = require('path')
 const { root, firebaseFunctionsDir, craBuildIndex } = require('../../config/filelist')
 
 const outputFile = join(root, firebaseFunctionsDir, 'markup.js')
-const searchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
+const rootDivSearchCriteria = /<div.*id=("|')root("|').*>(.|\n)*<\/div>/i
 
-const expressFunction = markup => `module.exports = (content, additional = null) => {
+const expressFunction = markup => `module.exports = (content, scriptsGlabals = null, headNodes = null) => {
   let more = ''
-  if (additional) {
+  if (scriptsGlabals) {
     more = \`<script charset="UTF-8">
-    \${Object.keys(additional).reduce((acc, key) => \`\${acc}\\n\${key}=\${JSON.stringify(additional[key])};\`, '')}
+    \${Object.keys(scriptsGlabals).reduce((acc, key) => \`\${acc}\\n\${key}=\${JSON.stringify(scriptsGlabals[key])};\`, '')}
     </script>\`
   }
   return \`${markup}\`
@@ -19,16 +18,15 @@ const expressFunction = markup => `module.exports = (content, additional = null)
 const copyMarkup = () =>
   readFile(craBuildIndex, 'utf-8')
     .then((content) => {
-      const searchResult = content.match(searchCriteria)
-
-      if (!Array.isArray(searchResult)) {
-        const err = new Error(`no string matching ${searchCriteria}`)
+      const divSearchResult = content.match(rootDivSearchCriteria)
+      if (!Array.isArray(divSearchResult)) {
+        const err = new Error(`no string matching ${rootDivSearchCriteria}`)
         return Promise.reject(err)
       }
-      const rootDiv = searchResult[0].substring(0, searchResult[0].indexOf('</div>') + 6)
-      // eslint-disable-next-line no-template-curly-in-string
-      const replacement = `${rootDiv.replace('><', '>${content}<')}\${more}`
-      const newMarkup = content.replace(rootDiv, replacement)
+      const rootDiv = divSearchResult[0].substring(0, divSearchResult[0].indexOf('</div>') + 6)
+      /* eslint-disable no-template-curly-in-string */
+      const rootReplacement = `${rootDiv.replace('><', '>${content}<')}\${more}`
+      const newMarkup = content.replace(rootDiv, rootReplacement).replace('</head>', '${headNodes || \'\'}</head>')
       return expressFunction(newMarkup)
     })
     .then(markup => writeFile(outputFile, markup, 'utf-8'))
