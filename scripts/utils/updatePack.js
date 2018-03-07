@@ -12,6 +12,9 @@ const updatePack = () =>
         scripts: {
           ...conf.scripts,
           build: 'cra-firebase build',
+          deploy: 'npm run build && firebase deploy',
+          'fbs:watch': 'cra-firebase start',
+          'fbs:start': 'firebase serve --only hosting,functions',
         },
       },
     }))
