@@ -3,7 +3,7 @@ const { join } = require('path')
 describe('version script', () => {
   it('should return version number which listed is in pakcage.json', () => {
     const packName = join(process.cwd(), 'package.json')
-    /* eslint-disable no-underscore-dangle, global-require, no-console */
+    /* eslint-disable global-require, no-console */
     require('fs-extra').__setFilesManifest({
       [packName]: JSON.stringify({
         name: 'cra-firebase-mock',

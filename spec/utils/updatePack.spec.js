@@ -1,8 +1,8 @@
 const { join } = require('path')
 
 describe('updatePack script', () => {
-  /* eslint-disable no-underscore-dangle, global-require */
-  it('replaces build command in package.json', () => {
+  /* eslint-disable global-require */
+  it('replaces build command in package.json and adds more for convinience', () => {
     const packName = join(process.cwd(), 'package.json')
     require('fs-extra').__setFilesManifest({
       [packName]: JSON.stringify({
@@ -33,6 +33,9 @@ describe('updatePack script', () => {
           build: 'cra-firebase build',
           test: 'react-scripts test --env=jsdom',
           eject: 'react-scripts eject',
+          deploy: 'npm run build && firebase deploy',
+          'fbs:watch': 'cra-firebase start',
+          'fbs:start': 'firebase serve --only hosting,functions',
         },
         dependencies: {
           react: '^16.2.0',
@@ -52,5 +55,4 @@ describe('updatePack script', () => {
       expect(actual.content).toEqual(expectedContent)
     })
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

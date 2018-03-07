@@ -40,7 +40,7 @@ describe('filterFiles', () => {
     expect(actual).toEqual(expected)
   })
 
-  /* eslint-disable no-underscore-dangle, global-require */
+  /* eslint-disable global-require */
   it('reads more params from package.json cra-firebase', () => {
     jest.mock('../../scripts/utils/getPropFromJSONFile', () => (arg) => {
       if (arg.indexOf('package.json') > 0) {
@@ -121,5 +121,4 @@ describe('filterFiles', () => {
     const actual = newGiven.filter(filterFiles)
     expect(actual).toEqual(newExpected)
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

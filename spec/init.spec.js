@@ -2,6 +2,8 @@ describe('init script', () => {
   const updatePackMock = jest.fn(() => Promise.resolve())
   const updateGitignore = jest.fn(() => Promise.resolve())
   const addRewrites = jest.fn(() => Promise.resolve())
+  const seedSrcMock = jest.fn(() => Promise.resolve())
+  const propmtMockY = jest.fn()
   const loggingMock = {
     okOut: jest.fn(),
     infoOut: jest.fn(),
@@ -19,22 +21,29 @@ describe('init script', () => {
       process.argv = ['', '', '-y']
     })
 
-    it('runs updatePack and updateGitignore', () => {
+    it('runs updatePack, addsRewrites, updateGitignorea nd seedSrc', () => {
       const init = require('../scripts/init')
-      expect.assertions(3)
-      return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
+      expect.assertions(4)
+      return init(
+        updatePackMock, updateGitignore, addRewrites,
+        loggingMock, propmtMockY, seedSrcMock,
+      ).then(() => {
         expect(updatePackMock).toHaveBeenCalledTimes(1)
         expect(addRewrites).toHaveBeenCalledTimes(1)
         expect(updateGitignore).toHaveBeenCalledTimes(1)
+        expect(seedSrcMock).toHaveBeenCalledTimes(1)
       })
     })
 
     it('informs about progress', () => {
       const init = require('../scripts/init')
       expect.assertions(2)
-      return init(updatePackMock, updateGitignore, addRewrites, loggingMock).then(() => {
+      return init(
+        updatePackMock, updateGitignore, addRewrites,
+        loggingMock, propmtMockY, seedSrcMock,
+      ).then(() => {
         expect(loggingMock.okOut).toHaveBeenCalledTimes(1)
-        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(4)
       })
     })
 
@@ -61,18 +70,21 @@ describe('init script', () => {
         .mockReturnValueOnce(Promise.resolve('Y'))
         .mockReturnValueOnce(Promise.resolve('YES'))
         .mockReturnValueOnce(Promise.resolve('y'))
-      expect.assertions(4)
+        .mockReturnValueOnce(Promise.resolve('YeS'))
+      expect.assertions(5)
       return init(
         updatePackMock,
         updateGitignore,
         addRewrites,
         loggingMock,
         propmtMock,
+        seedSrcMock,
       ).then(() => {
         expect(updatePackMock).toHaveBeenCalledTimes(1)
         expect(addRewrites).toHaveBeenCalledTimes(1)
         expect(updateGitignore).toHaveBeenCalledTimes(1)
-        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+        expect(seedSrcMock).toHaveBeenCalledTimes(1)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(4)
       })
     })
 
@@ -84,18 +96,21 @@ describe('init script', () => {
         .mockReturnValueOnce(Promise.resolve('NO'))
         .mockReturnValueOnce(Promise.resolve('n'))
         .mockReturnValueOnce(Promise.resolve('N'))
-      expect.assertions(4)
+        .mockReturnValueOnce(Promise.resolve('nO'))
+      expect.assertions(5)
       return init(
         updatePackMock,
         updateGitignore,
         addRewrites,
         loggingMock,
         propmtMock,
+        seedSrcMock,
       ).then(() => {
         expect(updatePackMock).toHaveBeenCalledTimes(0)
         expect(addRewrites).toHaveBeenCalledTimes(0)
         expect(updateGitignore).toHaveBeenCalledTimes(0)
-        expect(loggingMock.infoOut).toHaveBeenCalledTimes(3)
+        expect(seedSrcMock).toHaveBeenCalledTimes(0)
+        expect(loggingMock.infoOut).toHaveBeenCalledTimes(4)
       })
     })
 

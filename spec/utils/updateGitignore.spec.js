@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 describe('updateGitignore script', () => {
-  /* eslint-disable no-underscore-dangle, global-require */
+  /* eslint-disable global-require */
   it('updates .gitignore with new entries', () => {
     jest.mock('../../config/filelist')
     const packName = join(process.cwd(), '.gitignore')
@@ -35,5 +35,4 @@ functions/**
       expect(actual.content).toEqual(expectedContent)
     })
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

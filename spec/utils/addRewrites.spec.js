@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 describe('addRewrites', () => {
-  /* eslint-disable no-underscore-dangle, global-require, no-console */
+  /* eslint-disable global-require, no-console */
 
   const protoGiven = {
     hosting: {
@@ -494,5 +494,4 @@ describe('addRewrites', () => {
       expect(console.error).toHaveBeenCalledWith(expect.stringMatching('Error: no file firebase.json. Please check if you intitialized project with Firebase'))
     })
   })
-  /* eslint-enable no-underscore-dangle, global-require, no-console */
 })

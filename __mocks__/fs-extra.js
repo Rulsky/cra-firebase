@@ -26,6 +26,10 @@ const __setFilesManifest = (files) => {
   })
 }
 
+const __applySpy = (spy, func) => {
+  fsExtra[spy] = func
+}
+
 const readFile = filename => Promise.resolve(filesManifest[filename])
 
 const writeFile = (filename, content) => ({ filename, content })
@@ -34,6 +38,7 @@ const outputFile = (filename, content) => ({ filename, content })
 
 const readJsonSync = file => filesManifest[file]
 
+fsExtra.__applySpy = __applySpy
 fsExtra.__setMockFiles = __setMockFiles
 fsExtra.__setFilesManifest = __setFilesManifest
 fsExtra.readFile = readFile
