@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 describe('updatePack script', () => {
-  /* eslint-disable no-underscore-dangle, global-require */
+  /* eslint-disable global-require */
   it('replaces build command in package.json', () => {
     const packName = join(process.cwd(), 'package.json')
     require('fs-extra').__setFilesManifest({
@@ -52,5 +52,4 @@ describe('updatePack script', () => {
       expect(actual.content).toEqual(expectedContent)
     })
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

@@ -2,7 +2,7 @@ const { EventEmitter } = require('events')
 const { join } = require('path')
 
 describe('start script', () => {
-  /* eslint-disable global-require, no-console, no-underscore-dangle */
+  /* eslint-disable global-require, no-console  */
   beforeEach(() => {
     jest.resetAllMocks()
     jest.resetModules()
@@ -34,10 +34,6 @@ describe('start script', () => {
     expect(process.env.BABEL_ENV).toEqual('development')
   })
   describe('transformation', () => {
-    let tfMock
-    beforeEach(() => {
-      tfMock = jest.fn()
-    })
     it('calls transformation upon file change')
     it('calls transformation upon new file created')
     it('not called upon ignored files')

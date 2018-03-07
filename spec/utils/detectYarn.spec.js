@@ -3,7 +3,7 @@ const { join } = require('path')
 describe('detectYarn', () => {
   jest.mock('../../config/filelist')
   jest.mock('fs')
-  /* eslint-disable global-require, no-underscore-dangle */
+  /* eslint-disable global-require */
   it('returns true if yarn.lock is present', () => {
     const filename = join(process.cwd(), 'yarn.lock')
     require('fs').__setFilesManifest({

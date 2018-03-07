@@ -1,6 +1,6 @@
 const { join } = require('path')
 
-/* eslint-disable no-underscore-dangle, global-require */
+/* eslint-disable , global-require */
 describe('configureBabel', () => {
   beforeEach(() => {
     jest.resetModules()
@@ -352,5 +352,4 @@ describe('configureBabel', () => {
 
     expect(configureBabelwithMock()).toEqual(expected)
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

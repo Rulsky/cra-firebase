@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 describe('copyDeps', () => {
-  /* eslint-disable no-underscore-dangle, global-require */
+  /* eslint-disable global-require */
   it("copies dependencies from root package.json into firebase's functions package.json", () => {
     jest.mock('../../config/filelist')
     const { firebaseFunctionsDir } = require('../../config/filelist')
@@ -65,5 +65,4 @@ describe('copyDeps', () => {
       expect(actual.content).toEqual(expectedContent)
     })
   })
-  /* eslint-enable no-underscore-dangle, global-require */
 })

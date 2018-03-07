@@ -1,5 +1,5 @@
 describe('runInstallPackages', () => {
-  /* eslint-disable global-require, no-underscore-dangle */
+  /* eslint-disable global-require,  */
   beforeEach(() => {
     jest.resetAllMocks()
     jest.resetModules()

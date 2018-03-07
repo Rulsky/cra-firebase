@@ -1,5 +1,5 @@
 describe('copyMarkup', () => {
-  /* eslint-disable no-underscore-dangle, global-require */
+  /* eslint-disable , global-require */
   const craBuildIndex = 'build/index.html'
   const mockFileManifest = {
     [craBuildIndex]: `<!DOCTYPE html>
