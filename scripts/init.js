@@ -2,6 +2,7 @@ const prompt = require('./utils/prompt')
 const updatePack = require('./utils/updatePack.js')
 const updateGitignore = require('./utils/updateGitignore.js')
 const addRewrites = require('./utils/addRewrites')
+const copySeed = require('./utils/copySeed')
 const logging = require('./utils/logging')
 
 const yNMatcher = new RegExp(/\b(?:yes|no|y|n)\b/, 'gim')
@@ -13,6 +14,7 @@ const init = (
   addR = addRewrites,
   l = logging,
   pr = prompt,
+  seedSrc = copySeed,
 ) => {
   if (
     typeof updP !== 'function' ||
@@ -30,6 +32,8 @@ const init = (
       .then(addR())
       .then(l.infoOut('Success\nAdding new entries to .gitignore'))
       .then(updG())
+      .then(l.infoOut('Success\nCopying seed source files'))
+      .then(() => seedSrc())
       .then(l.okOut('Success\nFinish'))
       .catch(err => l.errOut(`${err.stack}`))
   }
@@ -67,6 +71,15 @@ const init = (
         return updG()
       }
       l.infoOut('Skips modifying .gitignore')
+      return null
+    })
+    .then(() => pr({ ...promptParam, q: 'add seed source code with graphQL server on top of firestore and SSR with styles? (y/n)' }))
+    .then((answer) => {
+      if (testAnswerYes(answer)) {
+        l.infoOut('Adding seed files')
+        return seedSrc()
+      }
+      l.infoOut('Skips adding sources')
       return null
     })
     .catch(err => l.errOut(`${err.stack}`))
