@@ -16,6 +16,8 @@ const input = {
   server: join(srcDir, 'server'),
 }
 
+const seedDir = join(__dirname, '..', 'seed')
+
 module.exports = {
   srcDir,
   firebaseFunctionsDir,
@@ -24,4 +26,5 @@ module.exports = {
   outIndex,
   craBuildIndex,
   serverIndexInput,
+  seedDir,
 }
