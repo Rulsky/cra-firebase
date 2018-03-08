@@ -258,8 +258,17 @@ After Firestore was populated I recommend you to delete a file `src/server/utils
 
 
 # Known problems
+## flow types and some npm packages
+add this into your `.flowconfig` `[ignore]` section
+```
+.*node_modules/protobufjs/src/bower.json.*
+.*node_modules/react-apollo/react-apollo.umd.js.flow.*
+```
+
+## Development process
 Problem of serving firebase locally and development: right now I can't figure how to toss CRA dev tools into firebase serve functionality. So right now you have a localhost:3000 for front-only and localhost:5000 for back-end only.
 
+## Assets
 Assets like SVG and css aren't fit well within server. Because node expects plain javascript.
 
 You can add additional babel transformers and file designated to be transformed (instructions below). But bear in mind that during transformation import statements must be altered to address proper filenames. i.e. if in your src
@@ -274,7 +283,7 @@ const icon = require('icon')
 ### Alternative solutions:
 **for SVG**: convert SVG into plain react components with any tool. For example [SVGR](https://github.com/smooth-code/svgr).
 
-And for styles use something more suitable into SSR.
+And for styles use something more suitable into SSR (like styled-components).
 
 # Configuration
 This utility allowed to be configured via `.crafirebaserc.json` or a `crafirebase` section in root's `package.json`
