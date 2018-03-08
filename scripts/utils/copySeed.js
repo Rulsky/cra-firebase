@@ -10,6 +10,7 @@ const deps = [
   'apollo-link-http@^1.5.2',
   'apollo-link-schema@^1.0.6',
   'apollo-server-express@^1.3.2',
+  'babel-runtime@^6.26.0',
   'body-parser@^1.18.2',
   'cors@^2.8.4',
   'express@^4.16.2',
