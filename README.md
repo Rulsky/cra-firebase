@@ -72,7 +72,10 @@ It also can provide you with initial source code to see how it work.
   9. Sets `BABEL_ENV` to the original value.
 
 # Serving firebase cloud functions locally
-run one of:
+0. as of 08 MAR 2018 use filrebase-tools@3.17.4 (the 3.17.5 is broken).
+1. setup your admin credentials following a [guide from functions docs](https://firebase.google.com/docs/functions/local-emulator)
+2. put a file with your service admin key into your project's `functions` dir
+3. run one of:
 
 `yarn build`
 `yarn firebase deploy`
@@ -83,6 +86,8 @@ or
 `npm run build`
 `$(npm bin)/firebase deploy`
 `$(npm bin)/firebase serve --only functions,hosting`
+
+or if you used default init params you will have npm script command `build` and `fbs:start` - issue it and you good to go.
 
 Please keep in mind that firebase hosting will serve static files from your build directory, so upon client hydration you'll finish with old version of your app.
 
