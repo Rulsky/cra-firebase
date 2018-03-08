@@ -1,6 +1,6 @@
 {
   "name": "cra-firebase",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "helper lib to provide SSR capabilities of firebase cloud functions to a project seeded with create-react-app",
   "bin": {
     "cra-firebase": "./index.js"
@@ -12,6 +12,7 @@
   "files": [
     "scripts",
     "config",
+    "seed",
     "index.js"
   ],
   "engines": {
