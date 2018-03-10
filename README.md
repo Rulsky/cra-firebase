@@ -49,7 +49,7 @@ It also can provide you with initial source code to see how it work.
 ## Description of the commands
 
 ## What happens when you run the `init -y` command:
-  1. Modifies your project's `package.json` file and replaces CRA's `build` script with own. Don't worry: during the running of cra-firebase build, it also runs CRA build scripts.
+  1. Modifies your project's `package.json` file and replaces CRA's `build` script with own. Don't worry: during the running of cra-firebase build, it also runs CRA build scripts. It also adds two additional QoL commands to ease dev process.
   2. Deals with rewrite rules in your `firebase.json`:
     - If during firebase initialization process you chosed SPA option this script replaces default rewrite rule which point to `index.html` to point to a function `app`.
     - If no appropriate rule was found it adds one.
@@ -72,7 +72,7 @@ It also can provide you with initial source code to see how it work.
   9. Sets `BABEL_ENV` to the original value.
 
 # Serving firebase cloud functions locally
-0. as of 08 MAR 2018 use filrebase-tools@3.17.4 (the 3.17.5 is broken).
+0. Use filrebase-tools@3.17.6 or above (the 3.17.5 is broken).
 1. setup your admin credentials following a [guide from functions docs](https://firebase.google.com/docs/functions/local-emulator)
 2. put a file with your service admin key into your project's `functions` dir
 3. run one of:
